@@ -7,5 +7,5 @@ pix2pix深度网络模型是基于Tensorflow2.x所搭建，使用Train和Engine�
 2、克隆本仓库<br/>
 3、导入运行环境 conda env create -f Pix2PixZ.yaml
 ## 使用说明
-1、进入项目跟目录，输入python manage.py runserver<br/>
+1、进入项目根目录，输入python manage.py runserver<br/>
 2、首页拥有使用说明

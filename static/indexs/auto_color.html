@@ -1,0 +1,12 @@
+<div>
+    <div class="row col-sm-10 col-sm-offset-1">
+        <input id="img" type="file"/>
+        <button onclick="var res = predict(20, $('#img')); $('#inp').attr('src', res.img); $('#pre').attr('src', res.predict); ">预测</button>
+    </div>
+    <div class="row col-sm-10 col-sm-offset-1">
+        <img id="inp" class="col-sm-4 col-sm-offset-1"/>
+        <img id="pre" class="col-sm-4"/>
+    </div>
+    <div class="row">
+    </div>
+</div>

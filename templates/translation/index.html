@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <link rel='stylesheet' type='text/css' href='{% static 'css/bootstrap.min.css'%}'/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/translation.css' %}"/>
+        <script src='{% static 'js/jquery-3.3.1.min.js'%}'></script>
+        <script src='{% static 'js/bootstrap.min.js'%}'></script>
+        <script src='{% static 'js/wow.js'%}'></script>
+    </head>
+    <body>
+        <!-- 创建的模态框 -->
+        <div id="create-engine-modal" class="modal fade" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="margin: 5px 0px">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: 30px">×</span>
+                        </button>
+                        <h4 class="modal-title text-center">创建引擎</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin: 15px 0px">
+                            <div class="create-input-item">
+                                <div class="create-input-item-key col-sm-3 text-right">
+                                    <span class="create-input-item-key-icon">*</span>
+                                    <span class="create-input-item-key-inner">引擎名字</span>
+                                </div>
+                                <div class="create-input-item-value col-sm-8">
+                                    <input id="engine_name" placeholder="引擎名字建议简洁一些" class="create-input-item-value-inner form-control" type="text" style="width: 100%"/>
+                                    <div class="hidden input-error">一个好的名字是成功的一半</div>
+                                </div>
+                            </div>
+                            <div class="create-input-item">
+                                <div class="create-input-item-key col-sm-3 text-right">
+                                    <span class="create-input-item-key-icon">*</span>
+                                    <span class="create-input-item-key-inner">灰转彩</span>
+                                </div>
+                                <div class="create-input-item-value col-sm-8">
+                                    <select id="engine_gtc" class="form-control">
+                                        <option value="YES">是</option>
+                                        <option value="NO">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="create-input-item">
+                                <div class="create-input-item-key col-sm-3 text-right">
+                                    <span class="create-input-item-key-icon">*</span>
+                                    <span class="create-input-item-key-inner">LAMBDA</span>
+                                </div>
+                                <div class="create-input-item-value col-sm-8">
+                                    <input id="engine_lambda" class="create-input-item-value-inner form-control" type="number" value="100.0" style="width: 100%"/>
+                                </div>
+                            </div>
+                            <div class="create-input-item">
+                                <div class="create-input-item-key col-sm-3 text-right">
+                                    <span class="create-input-item-key-icon">*</span>
+                                    <span class="create-input-item-key-inner">作用描述</span>
+                                </div>
+                                <div class="create-input-item-value col-sm-8">
+                                    <textarea id="engine_msg" class="create-input-item-value-inner form-control"
+                                              placeholder="描述最好简洁明了"
+                                              style="width: 100%;height: 90px"></textarea>
+                                    <div class="hidden input-error">描述可以帮助您比较好的管理引擎</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-primary engine-modal-btn" onclick="create_engine()">确定</button>
+                        <button type="button" class="btn btn-default engine-modal-btn" data-dismiss="modal"
+                                onclick="clear_create_engine()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="javascript: home()">Pix2Pix Z</a>
+                    </div>
+                    <div class="navbar-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="javascript: engine_list(1)">Engine List</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#create-engine-modal">Create Engine</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="content"></div>
+    </body>
+
+    <script>
+        function clear_create_engine() {
+            $('#engine_name').val('')
+            $('#engine_msg').val('')
+            $('#engine_name').next().addClass('hidden').removeClass('show')
+            $('#engine_msg').next().addClass('hidden').removeClass('show')
+        }
+
+        function create_engine() {
+            let name = $('#engine_name').val()
+            let lambda = $('#engine_lambda').val()
+            let gtc = $('#engine_gtc option:selected').val()
+            let msg = $('#engine_msg').val()
+            var cnt = 0
+            if (name == '') {
+                $('#engine_name').next().addClass('show').removeClass('hidden')
+                cnt += 1
+            }else {
+                $('#engine_name').next().addClass('hidden').removeClass('show')
+            }
+            if(msg == '') {
+                $('#engine_msg').next().addClass('show').removeClass('hidden')
+                cnt += 1
+            }else {
+                $('#engine_msg').next().addClass('hidden').removeClass('show')
+            }
+            if(cnt > 0)
+                return
+            $.ajax({
+                type: 'get',
+                url: '/translation/create_engine',
+                data: {
+                    name: name,
+                    lambda: lambda,
+                    gtc: gtc,
+                    msg: msg,
+                },
+                success: function (res) {
+                    clear_create_engine()
+                    $('#create-engine-modal').modal('toggle')
+                    engine_list(1)
+                }
+            })
+        }
+    </script>
+
+    <script>
+        if('{{ request.session.content_url }}' != '')
+            $('#content').load('{{ request.session.content_url }}')
+
+        function nav_paths(res) {
+            // 获取路径导航的div
+            navs = $('#nav_paths')
+            paths = res.nav_paths
+            if(paths.length <= 1) {
+                navs.addClass('hidden').removeClass('show')
+                return
+            }
+            navs.addClass('show').removeClass('hidden')
+            // navs第二次使用
+            navs = navs.find('ol')
+            // 下面为渲染
+            end = paths.pop()
+            navs.html("\n")
+            for(var i=0;i<paths.length;i++) {
+                navs.append('<li><a herf="#" onclick="loadContent(\''+paths[i].url+'\', '+paths[i].level+', \''+paths[i].name+'\')">'+paths[i].name+'</a></li>\n')
+            }
+            navs.append('<li class="active">'+end.name+'</li>')
+        }
+
+        function loadContent(url, level, name) {
+            $('#content').load(url, function () {
+                $.get('/translation/set_content_url', {path: url, level: level, name: name}, nav_paths)
+            })
+        }
+
+        // 引擎列表
+        function engine_list(page_num) {
+            $('#content').load('/translation/engine_list/'+page_num, function () {
+                $.get('/translation/set_content_url', {path: '/translation/engine_list/'+page_num, level: 0, name: '应用列表'}, nav_paths)
+            })
+            $('#content').load('/translation/engine_list/'+page_num)
+        }
+
+        function home() {
+            $('#content').load('/static/translation/home.html', function () {
+                $.get('/translation/set_content_url', {path: '/static/translation/home.html', level: 0, name: '首页'}, nav_paths)
+            })
+        }
+    </script>
+</html>

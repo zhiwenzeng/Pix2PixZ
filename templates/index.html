@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+    <head>
+        <link rel='stylesheet' type='text/css' href='{% static 'css/bootstrap.min.css'%}'/>
+        <script src='{% static 'js/jquery-3.3.1.min.js'%}'></script>
+        <script src='{% static 'js/bootstrap.min.js'%}'></script>
+        <script src='{% static 'js/predict.js'%}'></script>
+    </head>
+    <body>
+        <div id="header">
+            <div class="wf-wrap">
+                <div class="wf-table">
+                    <div class="logo-classic-centered wf-td">
+                        <a href="#">
+                            <img src="/static/imgs/4.jpg" style="max-height: 50px"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="wf-wrap">
+                <nav class="navbar" role="navigation" style="margin-bottom: 0px; min-height: 0px">
+                    <div class="container-fluid" style="display: table;">
+                        <ul class="nav navbar-nav">
+                            <li><a href="javascript: home()" style="padding-top: 0px; padding-bottom: 0px">首页</a></li>
+                            <li><a href="javascript: engine_list()" style="padding-top: 0px; padding-bottom: 0px">应用列表</a></li>
+                            <li><a href="javascript: create_engine()" style="padding-top: 0px; padding-bottom: 0px">创建</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div id="nav_paths" class="row {% if request.session.nav_paths_length < 1 %}hidden{% else %}show{% endif %}">
+                <ol class="breadcrumb col-sm-10 col-sm-offset-1" style="background-color: white; font-size: 18px">
+                {% for path in request.session.nav_paths %}
+                    {% if request.session.nav_paths_length == path.level %}
+                    <li class="active">{{ path.name }}</li>
+                    {% else %}
+                    <li><a href="#" onclick="loadContent('{{ path.url }}', {{ path.level }}, '{{ path.name }}')">{{ path.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                </ol>
+            </div>
+        </div>
+
+        <nav id="nav" class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="javascript:index(-1, '{% static 'indexs/' %}', 'home.html')">首页</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        {% for id, engine in data.items %}
+                        <li id="nav_{{ id }}"><a href="javascript:index('{{ id }}', '{% static 'indexs/' %}', '{{ engine.mengine.url }}.html')">{{ engine.mengine.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="content">
+            <script>$('#content').load('{% static 'indexs/home.html' %}')</script>
+        </div>
+    </body>
+    <script>
+        prediction_url = '{% static 'indexs/prediction.html' %}'
+        // 索引到对应的页面
+        // id代表引擎工作管理器中的id，url代表对应的index页面
+        function index(id, base, url) {
+            url = base+url
+            // 全部设置为不激活
+            $('#nav .active').removeClass('active')
+            // el设为激活状态
+            if(id != -1) {
+                // 激活
+                $('#nav_'+id).addClass('active')
+            }
+            // 获取对应的div, 然后替换
+            content = $('#content')
+            content.load(url, null, function () {
+                // 加载预测模块
+                let prediction = content.find('#prediction')
+                prediction.load(prediction_url)
+            })
+        }
+    </script>
+</html>

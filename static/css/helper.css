@@ -1,0 +1,35 @@
+#helper-nav {
+    list-style: none;
+    padding-left: 10px;
+    line-height: 30px;
+    font-size: 18px;
+}
+
+#helper-nav > li > a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#helper-nav > li > a:hover {
+    color: #eeeeee;
+}
+
+.helper-content-sub > p {
+    font-size: 16px;
+    text-indent:2em;
+    line-height: 23px;
+}
+
+.helper-content-sub-img {
+    padding-bottom: 15px;
+}
+
+.helper-content-sub-img > span {
+    line-height: 30px;
+    font-size: 16px;
+}
+
+.helper-content-sub-img img {
+    width: 85%;
+}
+

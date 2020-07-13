@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1614a71d-b3c7-4ac9-8494-699fbc7ac0a5" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/pix2pix_z_system$LoadData.coverage" NAME="LoadData Coverage Results" MODIFIED="1580369401886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/image_translation/model_engine" />
+    <SUITE FILE_PATH="coverage/pix2pix_z_system$Pix2PixZ.coverage" NAME="Pix2PixZ Coverage Results" MODIFIED="1581079587214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/image_translation/model_engine" />
+    <SUITE FILE_PATH="coverage/pix2pix_z_system$test.coverage" NAME="test Coverage Results" MODIFIED="1581799400624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/image_translation/model_engine" />
+    <SUITE FILE_PATH="coverage/pix2pix_z_system$REngine.coverage" NAME="REngine Coverage Results" MODIFIED="1581799744889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/image_translation/model_engine" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
+        <item name="mengine: table" type="3d80ac25:SqliteImplModel$Table" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_translation/model_engine/REngine.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+              <folding>
+                <element signature="e#11#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_translation/model_engine/Pix2PixZ.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="321">
+              <caret line="130" column="78" selection-start-line="130" selection-start-column="78" selection-end-line="130" selection-end-column="78" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/image_translation/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="27" column="21" lean-forward="true" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>pix_pre_path</find>
+      <find>input</find>
+      <find>pix_acc(</find>
+      <find>pix_base_path</find>
+      <find>imgs_path</find>
+      <find>删除</find>
+      <find>save</find>
+      <find>read</find>
+      <find>load_weight</find>
+      <find>train_list</find>
+      <find>'{{ train.save_path }}'</find>
+      <find>delete</find>
+      <find>train_info</find>
+      <find>load_weight_path</find>
+      <find>_target</find>
+      <find>train</find>
+      <find>train(</find>
+      <find>predict</find>
+      <find>rgb_to_grayscale</find>
+      <find>Input</find>
+      <find>空</find>
+      <find>for</find>
+      <find>upload</find>
+      <find>nav-tabs</find>
+      <find>engine-inf</find>
+      <find>info</find>
+      <find>clear</find>
+      <find>clear:</find>
+      <find>change_check_file</find>
+      <find>imgs</find>
+    </findStrings>
+    <dirStrings>
+      <dir>G:\pix2pix_z_system\static</dir>
+      <dir>G:\pix2pix_z_system\static\upload</dir>
+      <dir>G:\pix2pix_z_system</dir>
+    </dirStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/image_translation/model_engine/engine.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/main.py" />
+        <option value="$PROJECT_DIR$/templates/content.html" />
+        <option value="$PROJECT_DIR$/templates/indexs/home.html" />
+        <option value="$PROJECT_DIR$/static/prediction.html" />
+        <option value="$PROJECT_DIR$/static/indexs/prediction.html" />
+        <option value="$PROJECT_DIR$/static/indexs/home.html" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/Engine.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/translationViews.py" />
+        <option value="$PROJECT_DIR$/image_translation/translationViews.py" />
+        <option value="$PROJECT_DIR$/templates/translation/create_engine.html" />
+        <option value="$PROJECT_DIR$/static/css/style.css" />
+        <option value="$PROJECT_DIR$/image_translation/migrations/0002_auto_20200131_2356.py" />
+        <option value="$PROJECT_DIR$/static/translation/create_train.html" />
+        <option value="$PROJECT_DIR$/pix2pix_z_system/settings.py" />
+        <option value="$PROJECT_DIR$/static/indexs/predict.js" />
+        <option value="$PROJECT_DIR$/static/indexs/predict.txt" />
+        <option value="$PROJECT_DIR$/static/indexs/auto_color.html" />
+        <option value="$PROJECT_DIR$/static/css/header.css" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/test.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/REngine.py" />
+        <option value="$PROJECT_DIR$/static/translation/create_engine.html" />
+        <option value="C:/ProgramData/Anaconda3/envs/tf2/Lib/site-packages/django/conf/locale/zh_Hans/formats.py" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/templates/translation/index.html" />
+        <option value="$PROJECT_DIR$/static/js/predict.js" />
+        <option value="$PROJECT_DIR$/templates/translation/engine_list.html" />
+        <option value="$PROJECT_DIR$/image_translation/urls.py" />
+        <option value="$PROJECT_DIR$/static/css/translation.css" />
+        <option value="$PROJECT_DIR$/image_translation/models.py" />
+        <option value="$PROJECT_DIR$/static/css/helper.css" />
+        <option value="$PROJECT_DIR$/templates/translation/create_train.html" />
+        <option value="$PROJECT_DIR$/templates/translation/train_list.html" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
+        <option value="$PROJECT_DIR$/image_translation/views.py" />
+        <option value="$PROJECT_DIR$/static/translation/using_help.html" />
+        <option value="$PROJECT_DIR$/static/translation/home.html" />
+        <option value="$PROJECT_DIR$/static/translation/model_help.html" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/ShowImage.py" />
+        <option value="$PROJECT_DIR$/image_translation/engineManage.py" />
+        <option value="$PROJECT_DIR$/templates/translation/train_info.html" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/copy.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/ConvLayer.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/LoadData.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/Discriminator.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/Generator.py" />
+        <option value="$PROJECT_DIR$/image_translation/model_engine/Pix2PixZ.py" />
+        <option value="$PROJECT_DIR$/pix2pix_z_system/urls.py" />
+        <option value="$PROJECT_DIR$/templates/translation/engine_info.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="315" />
+    <option name="y" value="20" />
+    <option name="width" value="1075" />
+    <option name="height" value="1035" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="image_translation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="image_translation" type="462c0819:PsiDirectoryNode" />
+              <item name="model_engine" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="fonts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="indexs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pix2pix_z_system" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="translation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pix2pix_z_system" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlite" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="database.console.LAST_STATE" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pix2pix_z_console" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\pix2pix_z_system\image_translation\model_engine" />
+      <recent name="G:\pix2pix_z_system\static\res" />
+      <recent name="G:\pix2pix_z_system\static\translation" />
+      <recent name="G:\pix2pix_z_system\static\js" />
+      <recent name="G:\pix2pix_z_system\static\fonts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\pix2pix_z_system\templates\translation" />
+      <recent name="G:\pix2pix_z_system\image_translation" />
+      <recent name="G:\pix2pix_z_system" />
+      <recent name="G:\pix2pix_z_system\static\translation" />
+      <recent name="G:\pix2pix_z_system\static\indexs" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Django server.pix2pix_z_system">
+    <configuration name="LoadData" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pix2pix_z_system" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_translation/model_engine" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_translation/model_engine/LoadData.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Pix2PixZ" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pix2pix_z_system" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_translation/model_engine" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_translation/model_engine/Pix2PixZ.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="REngine" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pix2pix_z_system" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_translation/model_engine" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_translation/model_engine/REngine.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pix2pix_z_system" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_translation/model_engine" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_translation/model_engine/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pix2pix_z_system" type="Python.DjangoServer" factoryName="Django server">
+      <module name="pix2pix_z_system" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.REngine" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.Pix2PixZ" />
+        <item itemvalue="Python.LoadData" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1614a71d-b3c7-4ac9-8494-699fbc7ac0a5" name="Default Changelist" comment="" />
+      <created>1579365585669</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579365585669</updated>
+      <workItem from="1579365587582" duration="13192000" />
+      <workItem from="1579827461727" duration="7426000" />
+      <workItem from="1579851581598" duration="54717000" />
+      <workItem from="1580195613809" duration="21848000" />
+      <workItem from="1580275028716" duration="7974000" />
+      <workItem from="1580363678892" duration="15675000" />
+      <workItem from="1580475083644" duration="12473000" />
+      <workItem from="1580530491596" duration="21988000" />
+      <workItem from="1580642047925" duration="32165000" />
+      <workItem from="1580803517223" duration="14135000" />
+      <workItem from="1580898005957" duration="1998000" />
+      <workItem from="1580908079893" duration="7167000" />
+      <workItem from="1581008757441" duration="1394000" />
+      <workItem from="1581070591134" duration="36560000" />
+      <workItem from="1581257415653" duration="11169000" />
+      <workItem from="1581313616910" duration="6923000" />
+      <workItem from="1581320572592" duration="33000" />
+      <workItem from="1581322693493" duration="780000" />
+      <workItem from="1581335519489" duration="2895000" />
+      <workItem from="1581349964149" duration="639000" />
+      <workItem from="1581383095867" duration="27248000" />
+      <workItem from="1581595040396" duration="38470000" />
+      <workItem from="1581800129778" duration="139768000" />
+      <workItem from="1582200745890" duration="93154000" />
+      <workItem from="1582632937461" duration="5775000" />
+      <workItem from="1583162778904" duration="10879000" />
+      <workItem from="1583386879946" duration="15769000" />
+      <workItem from="1583811193755" duration="4483000" />
+      <workItem from="1584191459572" duration="1761000" />
+      <workItem from="1584264174787" duration="716000" />
+      <workItem from="1584460616249" duration="2663000" />
+      <workItem from="1585510167869" duration="2353000" />
+      <workItem from="1586271241942" duration="69000" />
+      <workItem from="1586366249587" duration="1525000" />
+      <workItem from="1586438716284" duration="2958000" />
+      <workItem from="1586448111259" duration="42000" />
+      <workItem from="1586449055836" duration="1732000" />
+      <workItem from="1586526038967" duration="2287000" />
+      <workItem from="1586602944939" duration="7144000" />
+      <workItem from="1586669733615" duration="2804000" />
+      <workItem from="1586839809332" duration="20380000" />
+      <workItem from="1587176465987" duration="2348000" />
+      <workItem from="1587203857400" duration="743000" />
+      <workItem from="1587402359660" duration="36000" />
+      <workItem from="1587743841245" duration="712000" />
+      <workItem from="1587812924429" duration="1667000" />
+      <workItem from="1589256298343" duration="392000" />
+      <workItem from="1590166039933" duration="699000" />
+      <workItem from="1594052334500" duration="1663000" />
+      <workItem from="1594531767998" duration="3163000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="664554000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15991472" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49865952" weight="0.32796487" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.329429" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39970717" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" sideWeight="0.49932975" weight="0.32796487" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5013405" side_tool="true" weight="0.28843337" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49865952" visible="true" weight="0.2057842" />
+      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="bottom" id="Database Console" order="13" weight="0.329429" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.3297587" />
+      <window_info anchor="right" id="Database" order="4" weight="0.29211086" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/static/upload/0d359bf4-190a-47c5-a309-bfa447e049be-pre.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/upload/0fbf6699-0cd2-4c35-aaf7-311adc4c72b8.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/upload/1ec8ed0d-7b67-4588-9f99-168e75336ee7.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/upload/1ec8ed0d-7b67-4588-9f99-168e75336ee7-pre.jpg" />
+    <entry file="file://$PROJECT_DIR$/static/translation/using_help.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/engineManage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="39" column="23" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+            <element signature="e#896#915#0" />
+            <element signature="e#968#1147#0" />
+            <element signature="e#1199#1426#0" />
+            <element signature="e#1497#1682#0" />
+            <element signature="e#1751#1839#0" />
+            <element signature="e#1908#1972#0" />
+            <element signature="e#2041#2112#0" />
+            <element signature="e#2152#2234#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/datas (1).json" />
+    <entry file="file://$USER_HOME$/Downloads/0 (1).jpg" />
+    <entry file="file://$USER_HOME$/Downloads/0-pre (5).jpg" />
+    <entry file="file://$USER_HOME$/Downloads/0-pre (4).jpg" />
+    <entry file="file://$USER_HOME$/Downloads/0.jpg" />
+    <entry file="file://$USER_HOME$/Downloads/0-pre (3).jpg" />
+    <entry file="file://$USER_HOME$/Downloads/0-pre (2).jpg" />
+    <entry file="file://$USER_HOME$/Downloads/datas.json" />
+    <entry file="file://$USER_HOME$/Downloads/0-pre (1).jpg" />
+    <entry file="file://$USER_HOME$/Downloads/0-pre.jpg" />
+    <entry file="file://$USER_HOME$/Downloads/04d6bdd6fae96e38fc42472349aedf17.jpg" />
+    <entry file="file://C:/ProgramData/Anaconda3/envs/tf2/Lib/site-packages/django/urls/resolvers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="589" selection-start-line="589" selection-end-line="589" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/copy.py" />
+    <entry file="file://$PROJECT_DIR$/pix2pix_z_system/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/translation/train_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1102">
+          <caret line="58" column="18" selection-start-line="58" selection-start-column="15" selection-end-line="58" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/ShowImage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="39" column="55" selection-start-line="39" selection-start-column="55" selection-end-line="39" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/tfimg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+          <folding>
+            <element signature="e#26#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pix2pix_z_system/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2820">
+          <caret line="141" column="20" selection-start-line="141" selection-start-column="20" selection-end-line="141" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/Discriminator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="43" selection-start-line="2" selection-start-column="43" selection-end-line="2" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/ConvLayer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://18f33d66-821d-4a21-94ba-890de49f6972/schema/main/table/mengine">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/Generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="35" column="15" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/translation/train_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2220">
+          <caret line="111" column="82" selection-start-line="111" selection-start-column="82" selection-end-line="111" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/translation/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1420">
+          <caret line="71" column="46" selection-start-line="71" selection-start-column="46" selection-end-line="71" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/translation/engine_info.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4180">
+          <caret line="209" column="42" selection-start-line="209" selection-start-column="42" selection-end-line="209" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://18f33d66-821d-4a21-94ba-890de49f6972/schema/main/table/train">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/upload/0b051911-668b-42fd-937d-40d95afc0993.jpg" />
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/LoadData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="118" column="10" lean-forward="true" selection-start-line="118" selection-start-column="10" selection-end-line="118" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/migrations/0001_initial.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/imgs/0.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/imgs/1.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/imgs/754.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/imgs/1009.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="33" column="62" lean-forward="true" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/res/model-2-1-1.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/res/model-2-1-2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/res/helper-2-2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/res/billboard2.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/res/dabai.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/res/helper-2-1.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/REngine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#11#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/model_engine/Pix2PixZ.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="130" column="78" selection-start-line="130" selection-start-column="78" selection-end-line="130" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_translation/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="27" column="21" lean-forward="true" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

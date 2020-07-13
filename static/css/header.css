@@ -1,0 +1,26 @@
+.wf-wrap {
+    padding: 0 40px;
+    margin: 0 auto;
+}
+#header .wf-table {
+    height: 111px;
+    min-height: 111px;
+    display: table;
+    width: 100%;
+}
+.logo-classic-centered {
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+}
+.wf-td {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.nav>li>a {
+    color: #333333;
+    font: normal 600 16px / 24px "微软雅黑",Helvetica,Arial,Verdana,sans-serif;
+}
+.nav>li>a:focus, .nav>li>a:hover{
+    background-color: #FFFFFF;
+}

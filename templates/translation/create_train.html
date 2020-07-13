@@ -1,0 +1,296 @@
+<!-- checkbox样式 -->
+<style>
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 18px;
+        margin: 0px;
+        position: relative;
+    }
+
+    input[type="checkbox"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+    }
+
+    input[type="checkbox"]:checked::before {
+        content: "\2713";
+        background-color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border: 1px solid #7D7D7D;
+        border-radius:4px;
+        color: #7D7D7D;
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
+
+<!-- radio样式 -->
+<style>
+    input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        appearance: none;
+        position: relative;
+        vertical-align: middle;
+    }
+    input[type="radio"]:before{
+        content: '';
+        width: 20px;
+        height: 20px;
+        border: 1px solid #7d7d7d;
+        display: inline-block;
+        border-radius: 50%;
+        vertical-align: middle;
+    }
+    input[type="radio"]:checked:before{
+        content: '';
+        width: 20px;
+        height: 20px;
+        border: 1px solid #c59c5a;
+        background:#c59c5a;
+        display: inline-block;
+        border-radius: 50%;
+        vertical-align: middle;
+    }
+    input[type="radio"]:checked:after{
+        content: '';
+        width: 10px;
+        height:5px;
+        border: 2px solid white;
+        border-top: transparent;
+        border-right: transparent;
+        text-align: center;
+        display: block;
+        position: absolute;
+        top: 6px;
+        left:5px;
+        vertical-align: middle;
+        transform: rotate(-45deg);
+    }
+</style>
+
+<div>
+    <div class="col-sm-offset-2 col-sm-8" style="background-color: #2aabd2; padding: 15px 20px 0px 20px; border: #9d9d9d solid 1px">
+        <div class="form-horizontal" onsubmit="return false;">
+            <input id="engine-id" type="hidden" value="{{ engine_id }}"/>
+            <div class="form-group" style="text-align: center">
+                <h3>创建&nbsp;<span id="engine-name">{{ engine_name }}</span>&nbsp;的训练</h3>
+            </div>
+            <!-- 训练名 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="train_name">训练名</label>
+                <div class="col-sm-9">
+                    <input id="train_name" type="text" class="form-control"/>
+                    <span class="help-block" style="color: black; height: 12px;">训练名只是为了更好的区分训练</span>
+                </div>
+            </div>
+            <!-- 训练数据文件夹路径 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="train_img_input_path">训练数据文件夹路径</label>
+                <div class="col-sm-9">
+                    <input id="train_img_input_path" type="text" class="form-control" placeholder="例如: ~/train_img_input_path/"/>
+                    <span class="help-block" style="color: black; height: 12px;">训练图片的左边为input、右边为target，由input ==》target的翻译</span>
+                </div>
+            </div>
+            <!-- IOU评测 -->
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    <input id="is_pix" type="checkbox"/>
+                    <label for="is_pix" style="margin: 1px 0px 0px 0px;vertical-align: middle">像素准确度评测</label>
+                </div>
+                <div id="pix" class="hidden col-sm-9">
+                    <div id="test-img-target-path">
+                        <input id="test_img_input_path" type="text" class="form-control" placeholder="例如: ~/test_img_input_path/test_image.jpg"/>
+                        <span class="help-block" style="color: black; height: 12px;">指定一张图片进行像素准确度评测和图片预测</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 保存模型文件夹路径 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="save_engine_path">保存模型</label>
+                <div class="col-sm-9">
+                    <input id="save_engine_path" type="text" class="form-control" placeholder="例如: ~/save_engine_path/"/>
+                    <span class="help-block" style="color: black; height: 12px;">将模型保存在服务器的指定文件夹下</span>
+                </div>
+            </div>
+            <!-- 临时保存路径和间隔保存数 -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="save_engine_tmp_path">临时保存路径</label>
+                <div class="col-sm-6">
+                    <input id="save_engine_tmp_path" type="text" class="form-control" placeholder="例如: ~/save_engine_tmp_path/"/>
+                    <span class="help-block" style="color: black; height: 12px;">将模型保存在服务器的指定文件夹下</span>
+                </div>
+                <div class="col-sm-3" style="padding: 0px 15px 0px 0px">
+                    <label class="col-sm-4 control-label" for="save_engine_tmp_space">间隔</label>
+                    <div class="col-sm-8" style="padding: 0px">
+                        <input id="save_engine_tmp_space" type="number" class="form-control" value="20"/>
+                        <span class="help-block" style="color: black; height: 12px;">每隔<span id="save_engine_tmp_space_text">20</span>代保存一次(1代约要700MB的空间)</span>
+                    </div>
+                </div>
+            </div>
+            <!-- epochs和bufferSize、batchSize -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="epochs">EPOCHS</label>
+                <div class="col-sm-2">
+                    <input id="epochs" type="number" class="form-control" value="200"/>
+                </div>
+                <div class="col-sm-3" style="padding: 0px">
+                    <label class="col-sm-6 control-label" for="batch_size">BATCH SIZE</label>
+                    <div class="col-sm-6" style="padding: 0px">
+                        <input id="batch_size" type="number" class="form-control" value="32"/>
+                    </div>
+                </div>
+                <div class="col-sm-4" style="padding: 0px 15px 0px 0px">
+                    <label class="col-sm-6 control-label" for="buffer_size">BUFFER SIZE</label>
+                    <div class="col-sm-6" style="padding: 0px">
+                        <input id="buffer_size" type="number" class="form-control" value="100"/>
+                    </div>
+                </div>
+            </div>
+            <!-- width、height、是否裁剪 -->
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    <input id="resize" name="is_clip" type="radio" checked/>
+                    <label for="resize" style="margin: 1px 0px 0px 0px;vertical-align: middle;">标准化</label>
+                </div>
+                <div class="col-sm-2 control-label">
+                    <input id="clip" name="is_clip" type="radio"/>
+                    <label for="clip" style="margin: 1px 0px 0px 0px;vertical-align: middle;">裁剪化</label>
+                </div>
+                <div class="col-sm-3" style="padding: 0px">
+                    <label class="col-sm-6 control-label" for="width">WIDTH</label>
+                    <div class="col-sm-6" style="padding: 0px">
+                        <input id="width" type="number" class="form-control" value="256"/>
+                    </div>
+                </div>
+                <div class="col-sm-4" style="padding: 0px 15px 0px 0px">
+                    <label class="col-sm-6 control-label" for="height">HEIGHT</label>
+                    <div class="col-sm-6" style="padding: 0px">
+                        <input id="height" type="number" class="form-control" value="256"/>
+                    </div>
+                </div>
+            </div>
+            <!-- 确定和取消 -->
+            <div class="form-group">
+                <div class="col-sm-6 control-label">
+                    <button onclick="create_train_task()" class="btn btn-lg" style="padding: 5px 20px 5px 20px; margin: 0px;"><label style="margin: 0px;">确定</label></button>
+                </div>
+                <div class="col-sm-6 control-label" style="text-align: left;">
+                    <button class="btn btn-lg" style="padding: 5px 20px 5px 20px; margin: 0px;" onclick="engine_list()"><label style="margin: 0px;">取消</label></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#is_pix').click(
+        function () {
+            if($(this).attr('checked') == 'checked') {
+                $(this).removeAttr('checked')
+                $('#pix').addClass('hidden').removeClass('show')
+            }else {
+                $(this).attr('checked', 'checked')
+                $('#pix').addClass('show').removeClass('hidden')
+            }
+        }
+    )
+
+    // 间隔改变事件
+    $('#save_engine_tmp_space').change(function () {
+        if($(this).val() <= 1) {
+            $(this).val('1')
+        }
+        $('#save_engine_tmp_space_text').text($(this).val())
+    })
+
+    // epoch改变事件
+    $('#epochs').change(function () {
+        if($(this).val() <= 1) {
+            $(this).val('1')
+        }
+    })
+    // batch size改变事件
+    $('#batch_size').change(function () {
+        if($(this).val() <= 1) {
+            $(this).val('1')
+        }
+    })
+    // buffer size改变事件
+    $('#buffer_size').change(function () {
+        if($(this).val() <= 100) {
+            $(this).val('100')
+        }
+    })
+    // width改变事件
+    $('#width').change(function () {
+        if($(this).val() <= 256) {
+            $(this).val('256')
+        }
+    })
+    // height改变事件
+    $('#height').change(function () {
+        if($(this).val() <= 256) {
+            $(this).val('256')
+        }
+    })
+</script>
+
+<script>
+    function create_train_task() {
+        train_name = $('#train_name').val()
+        input_path = $('#train_img_input_path').val()
+        is_pix = $('#is_pix').attr('checked') == 'checked'
+        pix_img_path = $('#test_img_input_path').val()
+        save_path = $('#save_engine_path').val()
+        tmp_path = $('#save_engine_tmp_path').val()
+        space = $('#save_engine_tmp_space').val()
+        epochs = $('#epochs').val()
+        batch_size = $('#batch_size').val()
+        buffer_size = $('#buffer_size').val()
+        is_clip = $('#clip').attr('checked') == 'checked'
+        width = $('#width').val()
+        height = $('#height').val()
+
+        engine_id = $('#engine-id').val()
+
+        $.ajax({
+            type: 'get',
+            url: '/translation/create_train',
+            data: {
+                name: train_name,
+                input_path: input_path,
+                is_pix: is_pix,
+                pix_img_path: pix_img_path,
+                save_path: save_path,
+                tmp_path: tmp_path,
+                space: space,
+                epochs: epochs,
+                batch_size: batch_size,
+                buffer_size: buffer_size,
+                is_clip: is_clip,
+                width: width,
+                height: height,
+                
+                engine_id: engine_id,
+            },
+            success: function (res) {
+                engine_list()
+            }
+        })
+    }
+</script>

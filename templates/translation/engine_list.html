@@ -1,0 +1,419 @@
+<div style="background: url('/static/res/billboard2.jpg'); height: 700px;">
+    <div class="col-sm-8 col-sm-offset-2" style="margin-top: 60px;">
+        <div class="shadow">
+            {% for mengine in mengines %}
+            <div style="border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding: 30px 0px 10px 0px;">
+                <div class="engine-item">
+                    <div class="engine-item-content">
+                        <a href="/translation/engine_info?engine_id={{ mengine.id }}">
+                            <div style="display: inline; margin-right: 10px; font-size: 22px">{{ mengine.name }}</div>
+                            <span style="color: #666666">{{ mengine.create_time }}</span>
+                        </a>
+                    </div>
+                    <div class="engine-item-msg">{{ mengine.msg }}</div>
+                </div>
+                <div class="engine-status">
+                    {% if mengine.is_start %}
+                    <span class="glyphicon glyphicon-asterisk" style="color: #4cae4c; margin-right: 5px; line-height: 20px;"></span>已启动
+                    {% else %}
+                    <span class="glyphicon glyphicon-asterisk" style="margin-right: 5px; line-height: 20px;"></span>未启动
+                    {% endif %}
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            {% endfor %}
+            <div class="text-center">
+                <ul class="pagination">
+                    {# 如果当前页还有上一页 #}
+                    {% if page.has_previous %}
+                        <li>
+                            {# 点击a标签，跳转到上一页链接 ?index  为地址后面拼接的参数 #}
+                            <a href="javascript: engine_list({{page.previous_page_number}})">上一页</a>
+                        </li>
+                    {% else %}
+                        {# 如果没有上一页， 则上一页按钮不可点击 #}
+                        <li class="disabled">
+                            <a href="#">上一页</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page_number in paginator.page_range %}
+                        {# 获取当前页的页码 #}
+                        {% if page_number == page.number %}
+                            {# 如果是当前页的话，选中 #}
+                            <li class="active">
+                                <a href="javascript: engine_list({{page_number}})">{{page_number}}</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="javascript: engine_list({{page_number}})">{{page_number}}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page.has_next %}
+                        <li>
+                            <a href="javascript: engine_list({{page.next_page_number}})">下一页</a>
+                        </li>
+                    {% else %}
+                    <li class="disabled">
+                        <a href="#">下一页</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden" style="margin: 50px">
+    <div class="panel-body col-sm-10 col-sm-offset-1">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        应用名
+                    </th>
+                    <th class="text-center">
+                        进度条
+                    </th>
+                    <th class="text-center">
+                        状态
+                    </th>
+                    <th class="text-center">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mengine, train in engines %}
+                <tr>
+                    <td class="text-center">
+                        <a href="#" onclick="engine_info({{ mengine.id }}, this)"><span id="engine_name_{{ mengine.id }}">{{ mengine.name }}</span></a>
+                    </td>
+                    <td class="text-center">
+                        {% if mengine.train_set.all.count == 0 %}
+                            还未创建初次训练,请创建一个训练
+                        {% endif %}
+                        {% if not train.is_train and train.cur_epoch != train.epochs %}
+                            {% if train.tmp_epoch == 0 %}
+                                <a onclick="train({{ mengine.id }}, {{ train.id }}, false)">开始训练</a>
+                            {% else %}
+                                <div class="progress {% if train.cur_epoch != train.epochs %} progress-striped active {% endif %}" style="margin-bottom: 0px">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% widthratio train.cur_epoch train.epochs 100 %}%">
+                                        {% widthratio train.cur_epoch train.epochs 100 %}%
+                                    </div>
+                                </div>
+                                <a data-toggle="modal" class="btn-white btn btn-xs"
+                                        onclick="train({{ mengine.id }}, {{ train.id }}, true)">继续训练</a>
+                            {% endif %}
+                        {% else %}
+                            {% if not train is None %}
+                                <div class="progress {% if train.cur_epoch != train.epochs %} progress-striped active {% endif %}" style="margin-bottom: 0px">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {% widthratio train.cur_epoch train.epochs 100 %}%">
+                                        {% widthratio train.cur_epoch train.epochs 100 %}%
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if mengine.is_start %}
+                            已启动
+                        {% else %}
+                            未启动
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <div class="btn-group">
+                            {% if not mengine.is_start and not mengine.path is None %}
+                                <button data-toggle="modal" class="btn-white btn btn-xs" onclick="start_engine('{{ mengine.id }}', this)">启动</button>
+                            {% endif %}
+                            {% if mengine.is_start %}
+                            <button data-toggle="modal" class="btn-white btn btn-xs" onclick="modal_save_engine('{{ mengine.name }}', '{{ mengine.id }}')">保存</button>
+                            {% endif %}
+                            {% if not train.is_train %}
+                            <button data-toggle="modal" class="btn-white btn btn-xs" onclick="modal_load_engine('{{ mengine.name }}', '{{ mengine.id }}')">加载</button>
+                            {% endif %}
+                            <button data-toggle="modal" class="btn-white btn btn-xs" onclick="train_list('{{ mengine.id }}', $('#engine_name_{{ mengine.id }}').text())">所有训练</button>
+                            {% if not train.is_train %}
+                                {% if mengine.train_set.all.count == 0 %}
+                                    <button data-toggle="modal" class="btn-white btn btn-xs" onclick="create_train('{{ mengine.name }}', '{{ mengine.gtc }}', {{ mengine.id }})">训练</button>
+                                {% elif train.cur_epoch == train.epochs %}
+                                    <button data-toggle="modal" class="btn-white btn btn-xs"
+                                            onclick="modal_add_fit_engine('{{ mengine.name }}', '{{ mengine.gtc }}', '{{ mengine.id }}')">加训</button>
+                                {% endif %}
+                            {% endif %}
+                            <button data-toggle="modal" class="btn-white btn btn-xs" onclick="modal_delete_engine('{{ mengine.name }}', {{ mengine.id }})">删除</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 启动引擎 -->
+<script>
+    function start_engine(engine_id, el) {
+        $(el).addClass('hidden').removeClass('show')
+        $.ajax({
+            type: 'get',
+            url: '/translation/start_engine',
+            data: {engine_id: engine_id},
+            success: function (res) {
+                $(el).addClass('show').removeClass('hidden')
+                status = res.status
+                if(status == 'error')
+                    alert(res.info)
+                else if(status == 'exception')
+                    alert(res.error)
+            }
+        })
+    }
+</script>
+
+<!-- 删除的模态框 -->
+<div id="delete-engine-modal" data-backdrop="static" data-keyboard="false" class="modal fade" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">删除应用</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delete-engine-id"/>
+                <p>删除<span id="delete-engine-name"></span>只从列表中删除，已训练好的文件将保留，是否删除？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="delete_engine()">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 调用模态框, 并且修改模态框的id和引擎名
+    function modal_delete_engine(name, id) {
+        $('#delete-engine-modal').modal('toggle')
+        is_refresh = false
+        $('#delete-engine-name').text(name)
+        $('#delete-engine-id').val(id)
+    }
+
+    // 删除应用
+    function delete_engine() {
+        $('#delete-engine-modal').modal('toggle')
+        url = '/translation/delete_engine/'+$('#delete-engine-id').val()
+        $.ajax({
+            type: 'get',
+            url: url,
+            success: function (res) {
+                alert(res.status)
+                is_refresh = true
+            }
+        })
+    }
+</script>
+
+
+<!-- 加训的模态框 -->
+<div id="add-fit-engine-modal" class="modal fade" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">增加训练</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="add-fit-engine-id"/>
+                <input type="hidden" id="add-fit-engine-gtc"/>
+                <p>对于<span id="add-fit-engine-name"></span>应用，是否加载最后一次训练好的模型参数进行加训？（若否, 则将从当前模型参数开始训练）</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                        onclick="load_weight();timeout_create_train();">是</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"
+                        onclick="timeout_create_train()">否</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新建训练的表单页面 -->
+<script>
+    // 调用模态框, 并且修改模态框的id和引擎名
+    function modal_add_fit_engine(name, gtc, id) {
+        $('#add-fit-engine-modal').modal('toggle')
+        is_refresh = false
+        $('#add-fit-engine-name').text(name)
+        $('#add-fit-engine-gtc').val(gtc)
+        $('#add-fit-engine-id').val(id)
+    }
+
+    function load_weight() {
+        engine_id = $('#add-fit-engine-id').val()
+        $('#add-fit-engine-modal').modal('toggle')
+        $.ajax({
+            type: 'get',
+            url: '/translation/load_weight',
+            data: {
+                engine_id: engine_id
+            },
+            success: function (res) {
+                console.log(res)
+            }
+        })
+    }
+
+    function timeout_create_train() {
+        setTimeout(function() {
+            create_train($('#add-fit-engine-name').text(), $('#add-fit-engine-gtc').val(), $('#add-fit-engine-id').val())
+        }, 1000);
+    }
+    
+    function create_train(name, gtc, id) {
+        window.clearInterval(itl)
+        data = '?engine_id=' + id + '&engine_name=' + name + '&engine_gtc=' + gtc.toLowerCase()
+        url = '/translation/create_train_page'+data
+        url = encodeURI(url)
+        $('#content').load(url, function () {
+            $.get('/translation/set_content_url', {path: url, level:1, name: '创建'+name+'的训练'}, nav_paths)
+        })
+    }
+    
+    function train(engine_id, train_id, is_keep) {
+        $.ajax({
+            type: 'get',
+            url: '/translation/train',
+            data: {
+                engine_id: engine_id,
+                train_id: train_id,
+                is_keep: is_keep,
+            },
+            success: function (res) {
+                console.log(res)
+            }
+        })
+    }
+</script>
+
+
+<!-- 加载的模态框 -->
+<div id="load-engine-modal" class="modal fade" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">加载参数</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" id="load-engine-id"/>
+                    <input type="text" id="load-engine-path"  class="form-control" placeholder="例如: ~/load_path/"/>
+                    <p class="help-block" ><span id="load-engine-name"></span>应用加载对应的ckpt文件（注意引擎须为同类型，并且lambda值最好一致）</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                        onclick="load_weight_path($('#load-engine-id').val(), $('#load-engine-path').val())">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function modal_load_engine(name, id) {
+        $('#load-engine-modal').modal('toggle')
+        is_refresh = false
+        $('#load-engine-name').text(name)
+        $('#load-engine-id').val(id)
+    }
+
+    function load_weight_path(engine_id, load_path) {
+        $('#load-engine-modal').modal('toggle')
+        $.ajax({
+            type: 'get',
+            url: '/translation/load_weight',
+            data: {
+                engine_id: engine_id,
+                path: load_path,
+            },
+            success: function (res) {
+                console.log(res)
+            }
+        })
+    }
+</script>
+
+
+<!-- 保存的模态框 -->
+<div id="save-engine-modal" class="modal fade" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">保存参数</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="hidden" id="save-engine-id"/>
+                    <input type="text" id="save-engine-path"  class="form-control" placeholder="例如: ~/save_path/"/>
+                    <p class="help-block" >将<span id="load-engine-name"></span>应用保存在指定文件夹下</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                        onclick="save_weight_path($('#save-engine-id').val(), $('#save-engine-path').val())">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function modal_save_engine(name, id) {
+        $('#save-engine-modal').modal('toggle')
+        is_refresh = false
+        $('#save-engine-name').text(name)
+        $('#save-engine-id').val(id)
+    }
+
+    function save_weight_path(engine_id, path) {
+        $('#save-engine-modal').modal('toggle')
+        $.ajax({
+            type: 'get',
+            url: '/translation/save_weight',
+            data: {
+                engine_id: engine_id,
+                path: path,
+            },
+            success: function (res) {
+                console.log(res)
+            }
+        })
+    }
+</script>
+
+<!-- 显示所有训练 -->
+<script>
+    function train_list(engine_id, name) {
+        window.clearInterval(itl)
+        $('#content').load('/translation/train_list?engine_id='+engine_id, function () {
+            $.get('/translation/set_content_url', {path: '/translation/train_list?engine_id='+engine_id, level: 1, name: name+'的训练列表'}, nav_paths)
+        })
+    }
+</script>

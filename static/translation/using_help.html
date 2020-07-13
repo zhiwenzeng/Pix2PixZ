@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/translation.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/helper.css"/>
+    <link rel='stylesheet' type='text/css' href='/static/css/bootstrap.min.css'/>
+    <script src='/static/js/jquery-3.3.1.min.js'></script>
+    <script src='/static/js/bootstrap.min.js'></script>
+    <title>Pix2Pix Z使用教程</title>
+</head>
+<body style="background: url('/static/res/lanbo.jpg') no-repeat fixed;position: relative;background-size: cover;">
+    <div style="position:fixed; left: 5px; top: 5px">
+        <nav class="navbar navbar-default" role="navigation" style="background: #ffffff00; border: 0px; font-family: raleway-regular; font-weight: bolder;">
+            <div class="container-fluid">
+                <div class="navbar-header" style="margin: 10px">
+                    <a class="navbar-brand" href="/translation/" style="font-size: 35px;color: white">Pix2Pix Z</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div style="margin: 110px 100px;">
+        <div class="shadow" style="padding: 15px 25% 30px 3%; background-color: #ffffffe0">
+            <div id="helper-content">
+                <div class="helper-content-sub">
+                    <h2>1、介绍</h2>
+                    <p>该教程演示了如何使用该web服务创建一个灰度漫画自动上色的引擎，以及创建训练并开始训练任务并使用该引擎进行预测；最后介绍如何分析训练是否达到引擎的拟合状态以及如何进行增量训练等。</p>
+                    <p>Pix2Pix Z还提供了加载和保存引擎，由于该系统加入了这两个操作，所以使得系统的使用复杂程度高了一些。所以该教程将介绍如何避免一些“错误”操作。</p>
+                    <p>Pix2Pix Z Console是一个控制台应用程序，这将提供给一些“较专业”的开发者使用本系统内核自定义的REngine引擎。</p>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>2、创建引擎</h2>
+                    <p>在本系统的首页的导航栏可以看到Create Engine的字眼，点击即可创建对应的引擎。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-2-1.png"/>
+                        </div>
+                        <span>图 2-1</span>
+                    </div>
+                    <p>你需要注意应该是LAMBDA参数和是否为灰度图转彩色图这两个重要参数，LAMBDA对你的拟合情况会造成一定的影响，在<a href="https://arxiv.org/abs/1611.07004">Pix2Pix</a>论文中指出LAMBDA超参数的值为<b>100.0</b>时效果较佳；若为灰转彩引擎，则该系统内部引擎将直接把输入的训练数据图片直接转为灰度图以及原彩色图来进行训练；所以该教程选择使用LAMBDA为100.0以及灰转彩来选项来进行训练。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-2-2.png"/>
+                        </div>
+                        <span>图 2-2</span>
+                    </div>
+                    <p>在Engine List列表中即可看到刚刚创建出来的模型。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-2-3.png"/>
+                        </div>
+                        <span>图 2-3</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>3、引擎相关操作注意事项</h2>
+                    <p>引擎在启动前可进行<b>删除</b>模型的操作，删除操作不会删除对应在硬盘内的模型文件。这是因为模型训练不易，数据无价。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-3-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 3-1</span>
+                    </div>
+                    <p>启动后将可以进行预测和对应<b>加载</b>和<b>保存</b>以及<b>预测</b>操作。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-3-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 3-2</span>
+                    </div>
+                    <p>值得一提的是<b>加载</b>操作是改变现在正在运行中的模型，<b>保存</b>则是将当前运行中的模型参数保存在本地中。</p>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>4、为漫画自动上色进行训练</h2>
+                    <p><b>图 3-2</b>的页面中存在一个创建训练的按钮，点击后如<b>图 4-1</b>所示。值得说明的事情是框中的路径都为运行该web服务的主机中存在的路径以及数据才有效。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-4-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 4-1</span>
+                    </div>
+                    <p>训练列表将出现该训练，并且系统不允许再创建训练，因为本系统保证了不让一个引擎同时进行两个训练，否则引擎内部算法对内存的控制会“傻”掉。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-4-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 4-2</span>
+                    </div>
+                    <p>正在等待训练完成，还可以进行<b>提前结束</b>训练，训练也会直接到此为止。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-4-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 4-3</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>5、查看训练相关信息</h2>
+                    <p>下图显示了对应的训练相关信息，以及预测出来的结果和损失、像素准确度、时间曲线图。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-5-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 5-1</span>
+                        <div>
+                            <img src="/static/res/helper-5-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 5-2</span>
+                    </div>
+                    <p>这里需要说明的是两图中的<b>损失</b>由一开始的<b>快速下降</b>到<b>一会上升一会下降</b>的状态了，就说明模型已经达到了拟合状态。这时，本教程将不再继续训练，是由于Pix2Pix本身存在的瓶颈缺陷导致的。想要改变现状只能通过修改超参数和对训练数据进行严格的限制等方式来改进预测效果。</p>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>6、加训和启动缺陷</h2>
+                    <p>本教程的<b>500次迭代的第一次训练</b>的训练完成后，将可以再创建一个新的训练，此时等同于加训。<b>由于多了加载和保存两个功能的新增，因此出现了一些缺陷；导致问题是现在运行中的模型可能并非想加训的模型，解决办法是查看引擎信息并且使用预测图片来进行验证。</b></p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-6-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 6-1</span>
+                    </div>
+                    <p>如图 6-1所示，模型正在运行中并且是在G:\save文件夹中的；以及预测也是准确的。</p>
+                    <p>接下来，进行增量训练。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-6-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 6-2</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-6-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 6-3</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-6-4.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 6-4</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-6-5.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 6-5</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>7、训练列表中的加载</h2>
+                    <p>训练列表中的加载是直接加载保存文件夹下的模型，这是为了解决可能加训后出现了很差模型而设计的。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-7-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 7-1</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>8、删除操作</h2>
+                    <p>引擎删除需要在引擎未启动时可以被删除。训练删除可以在未训练中的时候被删除。这两个操作都不会将对应存储文件从web服务主机上的硬盘中删除，只会删除数据库中的对应信息，训练不易。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-8-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 8-1</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>9、非灰转彩引擎创建及其训练教程</h2>
+                    <p>本教程将不再阐述详细的说明，比较特殊的内容将会进行一定的补充说明。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-1 创建引擎</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-2 创建训练</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-3 左图为输入，右图为输出</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-4-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-4-1 训练完成（上）</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-4-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-4-2 训练完成（下）</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-5-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-5-1 真实数据</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-5-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-5-2 预测数据（上）</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-9-5-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 9-5-3 预测数据（下）</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>10、推荐GPU算力</h2>
+                    <p>由于许多人没有高性能GPU算力，从而抛弃对DIY需求的想法；在此感谢<a href="https://www.kaggle.com/" target="_blank">Kaggle</a>和<a href="https://aistudio.baidu.com/aistudio/index" target="_blank">百度AI Studio</a>平台提供给AI学习者的GPU免费算力。</p>
+                    <p>进入正题，本教程将借助<a href="https://www.kaggle.com/" target="_blank">Kaggle</a>和<a href="/static/res/pix2pix_z_console.rar">Pix2Pix Z Console</a>来训练模型并且加载到web服务中。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-10-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 10-1 创建notebook</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-10-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 10-2 添加数据集以及Pix2Pix Z Console对应的.py文件</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-10-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 10-3 复制Pix2Pix Z Console对应的.py文件到working中</span>
+                    </div>
+                    <p>接下来的步骤请跳转到<a href="/static/translation/using_help__results__.html" target="_blank">这里</a></p>
+                    <p>注意，必须要在确保notebook代码正确的情况下commit。这样才能在Kaggle中得到对应的output。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-10-4-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 10-4-1 Kaggle的output文件（上）</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-10-4-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 10-4-2 Kaggle的output文件（中）</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-10-4-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 10-4-3 Kaggle的output文件（下）</span>
+                    </div>
+                    <p>百度AI Studio同样可以使用，这里将不再阐述。</p>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>11、Train和REngine介绍</h2>
+                    <p>图 11-1为Train类字段的说明。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-11-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 11-1</span>
+                    </div>
+                    <p>train.json和engine.json的重要性，如下图所示。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-11-2-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 11-2-1 train.json的信息</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-11-2-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 11-2-2 engine.json的信息</span>
+                    </div>
+                    <p>REngine对象的接口，如下图所示。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-11-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 11-3 REngine接口信息</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>12、将Pix2Pix Z Console训练后的模型加载到Web服务中</h2>
+                    <p>只需要简单的创建引擎和创建训练以及加载对应模型。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-12-1.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 12-1 创建引擎</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-12-2.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 12-2 创建训练</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-12-3.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 12-3 加载训练即可</span>
+                    </div>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/helper-12-4.png" style="width: 85%;"/>
+                        </div>
+                        <span>图 12-4 加载训练即可</span>
+                    </div>
+                </div>
+            </div>
+            <div class="shadow" style="width: 16%; background-color: #333333e0; position:fixed; right: 150px; top: 150px; padding-top: 10px">
+                <ul id="helper-nav">
+
+                </ul>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+    <!-- 创建的模态框 -->
+    <div id="show-img-modal" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" style="width: 85%">
+            <div class="modal-content">
+                <img id="show-img-modal-content" style="width: 100%;padding: 20px"/>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('img').click(function () {
+            if($(this).attr('id') == 'show-img-modal-content')
+                return
+            $('#show-img-modal').modal('toggle')
+            $('#show-img-modal-content').attr('src', $(this).attr('src'))
+        })
+        var subs = $('.helper-content-sub>h2')
+        for(var i=0;i<subs.length;i++) {
+            sub = $(subs[i]).attr('id', 'helper-content-sub-'+i)
+            $('#helper-nav').append("<li><a href='#helper-content-sub-"+i+"'>"+sub.html()+"</a></li>")
+        }
+        $("#helper-nav a").click(function() {
+            $("html, body").animate({
+                scrollTop: $($(this).attr("href")).offset().top + "px"
+            }, {
+                duration: 500,
+                easing: "swing"
+            });
+            return false;
+        });
+    </script>
+</body>
+</html>

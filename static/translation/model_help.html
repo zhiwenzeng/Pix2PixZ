@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/translation.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/helper.css"/>
+    <link rel='stylesheet' type='text/css' href='/static/css/bootstrap.min.css'/>
+    <script src='/static/js/jquery-3.3.1.min.js'></script>
+    <script src='/static/js/bootstrap.min.js'></script>
+    <title>Pix2Pix Z内核模型介绍</title>
+</head>
+<body style="background: url('/static/res/dabai.jpg') no-repeat fixed;position: relative;background-size: cover;">
+    <div style="position:fixed; left: 5px; top: 5px">
+        <nav class="navbar navbar-default" role="navigation" style="background: #ffffff00; border: 0px; font-family: raleway-regular; font-weight: bolder;">
+            <div class="container-fluid">
+                <div class="navbar-header" style="margin: 10px">
+                    <a class="navbar-brand" href="/translation/" style="font-size: 35px;color: white">Pix2Pix Z</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div style="margin: 110px 100px;">
+        <div class="shadow" style="padding: 15px 25% 30px 3%; background-color: #ffffff30">
+            <div id="helper-content">
+                <div class="helper-content-sub">
+                    <h2>1、介绍</h2>
+                    <p>该页将介绍一下模型的基础知识和模型结构，以及tmp文件夹中的各个文件。</p>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>2、模型基础知识</h2>
+                    <p>Pix2Pix模型是在<a href="https://baike.baidu.com/item/Gan/22181905?fr=aladdin" target="_blank">GAN神经网络</a>的基础上所做的改进。</p>
+                    <h3>2.1、GAN简介</h3>
+                    <p>Lan J.Goodfellow等于2014年10月在Generative Adversarial Network中提出的一个通过对抗过程估计生成模型的新框架。框架中同时训练两个模型：捕获数据分布的生成模型G，和估计样本来自训练数据的概率的判别模型D。</p>
+                    <p>目前深度学习领域的图像生成、风格迁移，图像变换，图像描述，无监督学习，甚至强化学习领域都能看到GAN的影子。</p>
+                    <p>一个<b>生成器G</b>（“伪造蒙娜丽莎的艺术家”）学习创造看起来真实的图像，而<b>判别器D</b>（“蒙娜丽莎鉴定师”）学习区分真假图像。</p>
+                    <p>GAN的思想是是一种二人零和博弈思想，G和D也遵循了这一个原则，艺术家进行随意仿造蒙娜丽莎，交由鉴定师鉴定；直到艺术家绘制出的蒙娜丽莎赝品蒙骗过了鉴定师。这一个过程说明了艺术家的手艺越来越高超，以及鉴定师一定要能够区分是否为赝品。G和D就好像是在“相互竞争着，互相进步”，这也是赠与同学们的一句话。</p>
+                    <p><b>对抗式GAN神经网络的模型如下所示：</b>输入一个噪声z(Noise)通过生成(Generator)模型生成虚假(fake)数据；接着鉴别(Discriminator)模型接受一个x图片数据为输入，Discriminator先将fake进行鉴定，再对真实(real)进行鉴定；最后通过Discriminator所返回的真和假的结果来拟合Generator和Discriminator模型。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-2-1-1.png"/>
+                        </div>
+                        <span>图 2-1-1</span>
+                    </div>
+                    <p><b>优化目标</b>为图 2-1-2所示。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-2-1-2.png"/>
+                        </div>
+                        <span>图 2-1-2</span>
+                    </div>
+                    <h3>2.2、DCGAN</h3>
+                    <p>DCGAN和GAN的区别在于，DCGAN的生成网络使用到了卷积层，如下图所示。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-2-2-1.png"/>
+                        </div>
+                        <span>图 2-2-1 由一个噪声z生成一个fake图像</span>
+                    </div>
+                    <h3>2.3、CGAN</h3>
+                    <p>DCGAN的缺点就是Generator接受的是一个噪声z，由于噪声z是随机的，所以想要一个特定数据的时候就并不是那么容易得到了。</p>
+                    <p>因此，CGAN问世了！CGAN只是在GAN的基础上添加了一个额外的条件y；从而Generator接受的输入就改变为了噪声z和条件y，Discriminator接受的输入也变为fake与y的组合以及real和y的组合，最后再通过Discriminator返回的结果去拟合Generator和Discriminator模型。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-2-3-1.png"/>
+                        </div>
+                        <span>图 2-3-1 CGAN模型结构</span>
+                    </div>
+                    <h3>2.4、<span style="color: red">*</span>Pix2Pix</h3>
+                    <p>Pix2Pix为本Web系统内核引擎所使用的模型；Pix2Pix模型有点像是CGAN以及DCGAN的结合。</p>
+                    <p>首先，Pix2Pix模型(图 2-4-1)中Generator将只接受一个输入x，Discriminator将接受的是x与real以及x与G(x)，最后拟合网络模型；其次，Pix2Pix模型的Generator的模型为U-Net网络(图 2-4-2)，Discriminator的模型为PatchGAN网络(图 2-4-3)。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/pix2pix_model.png"/>
+                        </div>
+                        <span>图 2-4-1 Pix2Pix模型结构</span>
+                    </div>
+                    <p>Generator网络模型结构如下。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-2-4-2.png"/>
+                        </div>
+                        <span>图 2-4-2 Generator网络模型结构</span>
+                    </div>
+                    <p>Discriminator网络模型结构如下。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-2-4-3.png"/>
+                        </div>
+                        <span>图 2-4-3 Discriminator网络模型结构</span>
+                    </div>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>3、Pix2Pix微调成Pix2Pix Z</h2>
+                    <p>作者试验过Pix2Pix模型训练，但是发现训练时存在不稳定的问题。举个栗子，在训练过程中生成器和鉴别器的Loss的趋势为先下降接着就为在一条虚线上下陡峭。如下图所示。</p>
+                    <div class="text-center helper-content-sub-img">
+                        <div>
+                            <img src="/static/res/model-3-1.png"/>
+                        </div>
+                        <span>图 3-1 迭代20次已经达到拟合，往后也并未出现拐点</span>
+                    </div>
+                    <p>为了解决这个问题，作者寻找了很多资料。由于GAN网络模型存在不稳定性，因此作为在GAN改进后的Pix2Pix模型也存在不稳定性，这是所谓的“本”。于是在查找很多文献资料之后，作者借鉴了前人所说的进行了模型的微调和改进。</p>
+                    <p>
+                        <ul style="font-weight: bold">
+                            <li>标准化图像，将图像信息从[0, 255]标准到[-1, 1]</li>
+                            <li>Generator最后的输出层使用Tanh，这是由于Tanh会将输出的值标准到(-1, 1)</li>
+                            <li>实践中优化G的Loss函数若使用min(log(1-D))将会出现梯度消失，所以巧妙的使用了max(logD)</li>
+                            <li>一个mini-batch里保证只有Real样本或者Fake样本，不把它们混起来训练</li>
+                            <li>对于G和D，使用LeakyReLU</li>
+                            <li>对于下采样，使用：Average Pooling，Conv2d + stride</li>
+                            <li>对于上采样，使用：PixelShuffle, ConvTranspose2d + stride</li>
+                            <li>使用BatchNormalization和Dropout</li>
+                        </ul>
+                    </p>
+                    <p>Pix2Pix Z就借鉴了这样的经验，Pix2Pix Z不仅仅如此，它还可指定输入通道数以及保存和加载模型等一系列改进。值得一提的是，无论训练数据的文件夹多大都可以进行训练。</p>
+                </div>
+                <div class="helper-content-sub">
+                    <h2>4、Pix2Pix Z对GPU资源的消耗</h2>
+                    <p>作者试验过Pix2Pix Z模型运行在4G显存的GPU上将会消耗3.2G的专用显存。</p>
+                    <p>值得一提的是4G的显存Batch Size建议为16，而16G的显存建议为64。否则会OOM溢出，接着将服务奔溃进而触发原系统保护程序。</p>
+                </div>
+            </div>
+            <div class="shadow" style="width: 16%; background-color: #333333e0; position:fixed; right: 150px; top: 150px; padding-top: 10px">
+                <ul id="helper-nav">
+
+                </ul>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+    <div id="show-img-modal" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" style="width: 85%">
+            <div class="modal-content">
+                <img id="show-img-modal-content" style="width: 100%;padding: 20px"/>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('img').click(function () {
+            if($(this).attr('id') == 'show-img-modal-content')
+                return
+            $('#show-img-modal').modal('toggle')
+            $('#show-img-modal-content').attr('src', $(this).attr('src'))
+        })
+        var subs = $('.helper-content-sub>h2')
+        for(var i=0;i<subs.length;i++) {
+            sub = $(subs[i]).attr('id', 'helper-content-sub-'+i)
+            $('#helper-nav').append("<li><a href='#helper-content-sub-"+i+"'>"+sub.html()+"</a></li>")
+            var h3s = sub.parent().children('h3')
+            console.log(h3s)
+            for(var j=0;j<h3s.length;j++) {
+                $(h3s[j]).attr('id', 'helper-content-sub-s-'+i*100+j)
+                $('#helper-nav').append("<li style='margin-left: 5px'><a href='#helper-content-sub-s-"+i*100+j+"'>"+$(h3s[j]).html()+"</a></li>")
+            }
+        }
+        $("#helper-nav a").click(function() {
+            $("html, body").animate({
+                scrollTop: $($(this).attr("href")).offset().top + "px"
+            }, {
+                duration: 500,
+                easing: "swing"
+            });
+            return false;
+        });
+    </script>
+</body>
+</html>

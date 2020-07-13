@@ -1,0 +1,661 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+    <head>
+        <!-- checkbox样式 -->
+        <style>
+            input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                text-align: center;
+                vertical-align: middle;
+                line-height: 18px;
+                margin: 0px;
+                position: relative;
+            }
+
+            input[type="checkbox"]::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: #fff;
+                width: 100%;
+                height: 100%;
+                border: 1px solid #d9d9d9;
+                border-radius: 4px;
+                line-height: 20px;
+            }
+
+            input[type="checkbox"]:checked::before {
+                content: "\2713";
+                background-color: #fff;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                border: 1px solid #7D7D7D;
+                border-radius:4px;
+                color: #7D7D7D;
+                font-size: 20px;
+                font-weight: bold;
+            }
+        </style>
+
+        <!-- radio样式 -->
+        <style>
+            input[type="radio"] {
+                width: 20px;
+                height: 20px;
+                appearance: none;
+                position: relative;
+                vertical-align: middle;
+            }
+            input[type="radio"]:before{
+                content: '';
+                width: 20px;
+                height: 20px;
+                border: 1px solid #7d7d7d;
+                display: inline-block;
+                border-radius: 50%;
+                vertical-align: middle;
+            }
+            input[type="radio"]:checked:before{
+                content: '';
+                width: 20px;
+                height: 20px;
+                border: 1px solid #aaaaaa;
+                background:#eeeeee;
+                display: inline-block;
+                border-radius: 50%;
+                vertical-align: middle;
+            }
+            input[type="radio"]:checked:after{
+                content: '';
+                width: 10px;
+                height:5px;
+                border: 2px solid #333333;
+                border-top: transparent;
+                border-right: transparent;
+                text-align: center;
+                display: block;
+                position: absolute;
+                top: 6px;
+                left:5px;
+                vertical-align: middle;
+                transform: rotate(-45deg);
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/translation.css' %}"/>
+        <link rel='stylesheet' type='text/css' href='{% static 'css/bootstrap.min.css'%}'/>
+        <script src='{% static 'js/jquery-3.3.1.min.js'%}'></script>
+        <script src='{% static 'js/bootstrap.min.js'%}'></script>
+        <script src='{% static 'js/predict.js'%}'></script>
+    </head>
+    <body style="background-color: #eeeeee">
+        <div style="background-color: #ffffff">
+            <div style="padding: 10px 8%; line-height: 40px; font-size: 18px;">
+                <span id="nav-engine-list"><a href="/translation">首页</a></span>
+                <span> > </span>
+                <span> {{ mengine.name }} </span>
+            </div>
+        </div>
+        <div>
+            <div class="engine-info">
+                <div>
+                    <div>
+                        <div style="display: inline; margin-right: 10px; font-size: 22px">{{ mengine.name }}</div>
+                    </div>
+                    <div class="engine-item-msg">{{ mengine.msg }}</div>
+                    <div>
+                        <div style="display: inline-block; width: 80%;">
+                            <span class="glyphicon glyphicon-globe"></span>
+                            <span style="margin-left: 5px; color: #666">{{ mengine.create_time }}</span>
+                        </div>
+                        <div class="text-right" style="display: inline-block; width: 200px;font-size: 17px">
+                            {% if mengine.is_start %}
+                            <a href="#" style="text-decoration: none;margin-left: 10px;cursor: not-allowed;color: #000;">启动</a>
+                            {% else %}
+                            <a hidden><div style="display: inline-block; vertical-align: middle" class="hourglass"></div></a>
+                            <a href="#" onclick="start_engine({{ mengine.id }}, this)" style="text-decoration: none;margin-left: 10px;">启动</a>
+                            {% endif %}
+                            {% if mengine.is_start %}
+                            <a href="#" onclick="clear_save_weight_path()" data-toggle="modal" data-target="#save-engine-modal" style="text-decoration: none;margin-left: 10px">保存</a>
+                            <a href="#" onclick="clear_load_weight_path()" data-toggle="modal" data-target="#load-engine-modal" style="text-decoration: none;margin-left: 10px">加载</a>
+                            <a href="#" style="text-decoration: none;margin-left: 10px;cursor: not-allowed;color: #000">删除</a>
+                            {% else %}
+                            <a href="#" onclick="clear_save_weight_path()" style="text-decoration: none;margin-left: 10px;cursor: not-allowed;color: #eee;">保存</a>
+                            <a href="#" onclick="clear_load_weight_path()" style="text-decoration: none;margin-left: 10px;cursor: not-allowed;color: #eee;">加载</a>
+                            <a href="#" data-toggle="modal" data-target="#delete-engine-modal" style="text-decoration: none;margin-left: 10px">删除</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="engine-info" style="margin-top: 8px;">
+                <div>
+                    <div style="width: 80%; display: inline-block; float: left">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#info" data-toggle="tab">引擎信息</a>
+                            </li>
+                            <li>
+                                <a href="#train-list" id="train-list-a" onclick="train_list(1)" data-toggle="tab">训练列表</a>
+                                <script>
+                                    var flag = false
+                                    var page_num = 1
+                                    function flush_train_list() {
+                                        $('#train-list-content').load('/translation/train_list/'+page_num+'?engine_id={{ mengine.id }}')
+                                    }
+
+                                    function train_list(page) {
+                                        page_num = page
+                                        flush_train_list()
+                                        if(!flag){
+                                            flag = true
+                                            setInterval("flush_train_list()", 10000)
+                                        }
+                                    }
+                                </script>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="width: 19%;display: inline-block;height: 42px;border-bottom: 1px solid #ddd; float: left; padding-right: 15px" class="text-right">
+                        {% if train.cur_epoch == train.epochs %}
+                        <button id="create-train-btn" class="btn-primary btn" data-toggle="modal" data-target="#create-train-modal" >创建训练</button>
+                        {% endif %}
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="info">
+                        <div style="padding: 20px 30px;">
+                            <div class="shadow" style="width: 420px;margin-top: 95px;margin-bottom: 70px;
+                                    padding: 15px; line-height: 27px; font-size: 16px;float: left">
+                                <div class="col-sm-4 text-right">引擎id</div>
+                                <div class="col-sm-8 text-left">{{ mengine.id }}</div>
+                                <div style="clear: both"></div>
+
+                                <div class="col-sm-4 text-right">引擎名</div>
+                                <div class="col-sm-8 text-left">{{ mengine.name }}</div>
+                                <div style="clear: both"></div>
+
+                                <div class="col-sm-4 text-right">运行模型</div>
+                                <div class="col-sm-8 text-left" id="model-path">
+                                    {% if mengine.path is None %}
+                                        <span style="color: #3ca8ff;">初始状态模型</span>
+                                    {% else %}
+                                        <span style="color: #ef1706;">{{ mengine.path }}</span>
+                                    {% endif %}
+                                </div>
+                                <div style="clear: both"></div>
+
+                                <div class="col-sm-4 text-right">灰转彩</div>
+                                <div class="col-sm-8 text-left">{% if mengine.gtc %}<span style="color: #20a621; font-weight: bold">是</span>{% else %}否{% endif %}</div>
+                                <div style="clear: both"></div>
+
+                                <div class="col-sm-4 text-right">是否运行</div>
+                                <div class="col-sm-8 text-left" id="model-run">{% if mengine.is_start %}<span style="color: #20a621; font-weight: bold">运行中</span>{% else %}否{% endif %}</div>
+                                <div style="clear: both"></div>
+
+                                <div class="col-sm-4 text-right">引擎描述</div>
+                                <div class="col-sm-8 text-left" style="color: #666666;">{{ mengine.msg }}</div>
+                                <div style="clear: both"></div>
+                            </div>
+                            <div id="predict-content" {% if mengine.is_start %}class="show"{% else %}class="hidden"{% endif %} style="float: left; margin-left: 30px;margin-top: 75px">
+                                <div class="shadow" style="padding: 15px">
+                                    <div style="float: left;width: 276px;line-height: 276px; margin-right: 10px; border: 1px solid #999999; border-radius: 2%" class="text-center">
+                                        <img id="input" style="max-width: 256px; max-height: 256px;"/>
+                                    </div>
+                                    <div style="float: left;height: 276px;" class="text-center">
+                                        <label for="file" class="btn btn-primary" style="margin-top: 110px">选择图片</label>
+                                        <input id="file" type="file" style="display:none" onchange="change_check_file(this)"/>
+                                        <br/>
+                                        <button class="btn-primary btn" style="margin-top: 10px" onclick="var res = predict({{ mengine.id }}, $('#file')); $('#predict').attr('src', res.predict)">预测 >> </button>
+                                    </div>
+                                    <div style="float: left;width: 276px;line-height: 276px; margin-left: 10px; border: 1px solid #999999; border-radius: 2%" class="text-center">
+                                        <img id="predict" style="max-width: 256px; max-height: 256px"/>
+                                    </div>
+                                    <div style="clear: both"></div>
+                                </div>
+                            </div>
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="train-list">
+                        <div id="train-list-content" style="padding: 20px 30px"></div>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 预测按钮 -->
+        <script>
+            function change_check_file(el) {
+                var file = $(el)[0].files[0]
+                $('#input').attr('src', '')
+                $('#input').attr('src', URL.createObjectURL(file))
+            }
+        </script>
+
+        <!-- 删除的模态框 -->
+        <div id="delete-engine-modal" class="modal fade" data-backdrop="static" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title text-center">删除应用</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" value="{{ mengine.id }}" id="delete-engine-id"/>
+                        <p class="text-center">该操作将删除 <span style="font-weight: bolder;">{{ mengine.name }}</span> 引擎相关信息，不删除本地训练数据，是否<span style="color: #ea2e2e;font-weight: bolder;">删除</span>？</p>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-primary engine-modal-btn" onclick="delete_engine()">删除</button>
+                        <button type="button" class="btn btn-default engine-modal-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // 删除引擎
+            function delete_engine() {
+                $('#delete-engine-modal').modal('toggle')
+                url = '/translation/delete_engine/'+$('#delete-engine-id').val()
+                $.ajax({
+                    type: 'get',
+                    url: url,
+                    success: function (res) {
+                        alert(res.status)
+                        location.href = '/translation'
+                    }
+                })
+            }
+
+            // 启动引擎
+            function start_engine(engine_id, el) {
+                $(el).prev().removeAttr('hidden')
+                $(el).attr('hidden', 'hidden')
+                $.ajax({
+                    type: 'get',
+                    url: '/translation/start_engine',
+                    data: {engine_id: engine_id},
+                    success: function (res) {
+                        el = $(el)
+                        $(el).removeAttr('hidden')
+                        $(el).prev().attr('hidden', 'hidden')
+                        $('#predict-content').addClass('show').removeClass('hidden')
+                        el.css({'cursor': 'not-allowed', 'color': '#000'})
+                        el.attr('onclick', '')
+                        var n1 = el.next()
+                        var n2 = n1.next()
+                        var n3 = n2.next()
+                        n1.attr({"data-toggle":"modal", "data-target":"#save-engine-modal"})
+                        n2.attr({"data-toggle":"modal", "data-target":"#load-engine-modal"})
+                        n3.removeAttr("data-toggle")
+                        n3.removeAttr("data-target")
+                        n1.css({'cursor': '', 'color': ''})
+                        n2.css({'cursor': '', 'color': ''})
+                        n3.css({'cursor': 'not-allowed', 'color': '#000'})
+                        $('#model-run').html('<span style="color: #20a621; font-weight: bold">运行中</span>')
+                        status = res.status
+                        if(status == 'error')
+                            alert(res.info)
+                        else if(status == 'exception')
+                            alert(res.error)
+                        if(status != 'success') {
+                            $('#model-path').html('<span style="color: #3ca8ff;">初始状态模型</span>')
+                        }
+                    }
+                })
+            }
+        </script>
+
+        <!-- 加载的模态框 -->
+        <div id="load-engine-modal" class="modal fade" data-backdrop="static" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title text-center">加载参数</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" value="{{ mengine.id }}" id="load-engine-id"/>
+                        <div class="create-input-item">
+                            <div class="create-input-item-key col-sm-3 text-right">
+                                <span class="create-input-item-key-icon">*</span>
+                                <span class="create-input-item-key-inner">加载路径</span>
+                            </div>
+                            <div class="create-input-item-value col-sm-8">
+                                <input type="text" id="load-engine-path" placeholder="例如: ~/load_path/" class="create-input-item-value-inner form-control" type="text" style="width: 100%"/>
+                                <div class="hidden input-error">必须给定一个路径，引擎将加载文件夹下的ckpt文件（注意引擎须为同类型，并且lambda值最好一致）</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-primary engine-modal-btn"
+                                onclick="load_weight_path($('#load-engine-id').val(), $('#load-engine-path').val()); $('#load-engine-modal').modal('toggle')">确定</button>
+                        <button type="button" class="btn btn-default engine-modal-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function clear_load_weight_path() {
+                $('#load-engine-path').val('')
+                $('#load-engine-path').next().addClass('hidden')
+            }
+
+            function load_weight_path(engine_id, load_path) {
+                if(load_path == '') {
+                    $('#load-engine-path').next().removeClass('hidden')
+                    return
+                }else {
+                    $('#load-engine-path').next().addClass('hidden')
+                }
+                $.ajax({
+                    type: 'get',
+                    url: '/translation/load_weight',
+                    data: {
+                        engine_id: engine_id,
+                        path: load_path,
+                    },
+                    success: function (res) {
+                        if(res.status == 'success') {
+                            $('#model-path>span').text(res.info)
+                            alert('加载成功')
+                        }
+                        else
+                            alert(res.info)
+                    },
+                    async: false
+                })
+            }
+        </script>
+
+        <!-- 保存的模态框 -->
+        <div id="save-engine-modal" class="modal fade" data-backdrop="static" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title text-center">保存参数</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" value="{{ mengine.id }}" id="save-engine-id"/>
+                        <div class="create-input-item">
+                            <div class="create-input-item-key col-sm-3 text-right">
+                                <span class="create-input-item-key-icon">*</span>
+                                <span class="create-input-item-key-inner">保存路径</span>
+                            </div>
+                            <div class="create-input-item-value col-sm-8">
+                                <input type="text" id="save-engine-path" placeholder="例如: ~/save_path/" class="create-input-item-value-inner form-control" type="text" style="width: 100%"/>
+                                <div class="hidden input-error">必须给定一个路径</div>
+                                <div>将 <span style="font-weight: bold">{{ mengine.name }}</span> 应用保存在指定文件夹下</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-primary engine-modal-btn"
+                                onclick="save_weight_path($('#save-engine-id').val(), $('#save-engine-path').val())">保存</button>
+                        <button type="button" class="btn btn-default engine-modal-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function clear_save_weight_path() {
+                $('#save-engine-path').val('')
+                $('#save-engine-path').next().addClass('hidden')
+            }
+
+            function save_weight_path(engine_id, path) {
+                if(path == '') {
+                    $('#save-engine-path').next().removeClass('hidden')
+                    return
+                }
+                $.ajax({
+                    type: 'get',
+                    url: '/translation/save_weight',
+                    data: {
+                        engine_id: engine_id,
+                        path: path,
+                    },
+                    success: function (res) {
+                        console.log(res)
+                        $('#save-engine-modal').modal('toggle')
+                    }
+                })
+            }
+        </script>
+
+        <!-- 创建训练模态框 -->
+        <div id="create-train-modal" class="modal fade" data-backdrop="static" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" style="width: 1000px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title text-center">创建 {{ mengine.name }} 的训练</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding: 15px 100px 0px 20px;">
+                            <div class="form-horizontal" onsubmit="return false;">
+                                <input id="engine-id" type="hidden" value="{{ mengine.id }}"/>
+                                <!-- 训练名 -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="train_name">训练名</label>
+                                    <div class="col-sm-9">
+                                        <input id="train_name" type="text" class="form-control"/>
+                                        <span class="help-block" style="color: black; height: 12px;">训练名只是为了更好的区分训练</span>
+                                    </div>
+                                </div>
+                                <!-- 训练数据文件夹路径 -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="train_img_input_path">训练数据文件夹路径</label>
+                                    <div class="col-sm-9">
+                                        <input id="train_img_input_path" type="text" class="form-control" placeholder="例如: ~/train_img_input_path/"/>
+                                        <span class="help-block" style="color: black; height: 12px;">训练图片的左边为input、右边为target，由input ==》target的翻译</span>
+                                    </div>
+                                </div>
+                                <!-- IOU评测 -->
+                                <div class="form-group">
+                                    <div class="col-sm-3 control-label">
+                                        <input id="is_pix" type="checkbox" style="margin-top: 0px"/>
+                                        <label for="is_pix" style="margin: 2px 0px 0px 0px;vertical-align: middle">像素准确度评测</label>
+                                    </div>
+                                    <div id="pix" class="hidden col-sm-9">
+                                        <div id="test-img-target-path">
+                                            <input id="test_img_input_path" type="text" class="form-control" placeholder="例如: ~/test_img_input_path/test_image.jpg"/>
+                                            <span class="help-block" style="color: black; height: 12px;">指定一张图片进行像素准确度评测和图片预测</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 保存模型文件夹路径 -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="save_engine_path">保存模型</label>
+                                    <div class="col-sm-9">
+                                        <input id="save_engine_path" type="text" class="form-control" placeholder="例如: ~/save_engine_path/"/>
+                                        <span class="help-block" style="color: black; height: 12px;">将模型保存在服务器的指定文件夹下</span>
+                                    </div>
+                                </div>
+                                <!-- 临时保存路径和间隔保存数 -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="save_engine_tmp_path">临时保存路径</label>
+                                    <div class="col-sm-6">
+                                        <input id="save_engine_tmp_path" type="text" class="form-control" placeholder="例如: ~/save_engine_tmp_path/"/>
+                                        <span class="help-block" style="color: black; height: 12px;">将模型保存在服务器的指定文件夹下</span>
+                                    </div>
+                                    <div class="col-sm-3" style="padding: 0px 15px 0px 0px">
+                                        <label class="col-sm-4 control-label" for="save_engine_tmp_space">间隔</label>
+                                        <div class="col-sm-8" style="padding: 0px">
+                                            <input id="save_engine_tmp_space" type="number" class="form-control" value="20"/>
+                                            <span class="help-block" style="color: black; height: 12px;">每隔<span id="save_engine_tmp_space_text">20</span>代保存一次(1代约要700MB的空间)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- epochs和bufferSize、batchSize -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="epochs">EPOCHS</label>
+                                    <div class="col-sm-2">
+                                        <input id="epochs" type="number" class="form-control" value="200"/>
+                                    </div>
+                                    <div class="col-sm-3" style="padding: 0px">
+                                        <label class="col-sm-6 control-label" for="batch_size">BATCH SIZE</label>
+                                        <div class="col-sm-6" style="padding: 0px">
+                                            <input id="batch_size" type="number" class="form-control" value="32"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0px 15px 0px 0px">
+                                        <label class="col-sm-6 control-label" for="buffer_size">BUFFER SIZE</label>
+                                        <div class="col-sm-6" style="padding: 0px">
+                                            <input id="buffer_size" type="number" class="form-control" value="100"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- width、height、是否裁剪 -->
+                                <div class="form-group">
+                                    <div class="col-sm-3 control-label">
+                                        <input id="resize" name="is_clip" type="radio" checked/>
+                                        <label for="resize" style="margin: 5px 0px 0px 0px;vertical-align: middle;">标准化</label>
+                                    </div>
+                                    <div class="col-sm-2 control-label">
+                                        <input id="clip" name="is_clip" type="radio"/>
+                                        <label for="clip" style="margin: 5px 0px 0px 0px;vertical-align: middle;">裁剪化</label>
+                                    </div>
+                                    <div class="col-sm-3" style="padding: 0px">
+                                        <label class="col-sm-6 control-label" for="width">WIDTH</label>
+                                        <div class="col-sm-6" style="padding: 0px">
+                                            <input id="width" type="number" class="form-control" value="256"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" style="padding: 0px 15px 0px 0px">
+                                        <label class="col-sm-6 control-label" for="height">HEIGHT</label>
+                                        <div class="col-sm-6" style="padding: 0px">
+                                            <input id="height" type="number" class="form-control" value="256"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-primary engine-modal-btn" onclick="create_train_task()">确定</button>
+                        <button type="button" class="btn btn-default engine-modal-btn" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('#is_pix').click(
+                function () {
+                    if($(this).attr('checked') == 'checked') {
+                        $(this).removeAttr('checked')
+                        $('#pix').addClass('hidden').removeClass('show')
+                    }else {
+                        $(this).attr('checked', 'checked')
+                        $('#pix').addClass('show').removeClass('hidden')
+                    }
+                }
+            )
+
+            // 间隔改变事件
+            $('#save_engine_tmp_space').change(function () {
+                if($(this).val() <= 1) {
+                    $(this).val('1')
+                }
+                $('#save_engine_tmp_space_text').text($(this).val())
+            })
+
+            // epoch改变事件
+            $('#epochs').change(function () {
+                if($(this).val() <= 1) {
+                    $(this).val('1')
+                }
+            })
+            // batch size改变事件
+            $('#batch_size').change(function () {
+                if($(this).val() <= 1) {
+                    $(this).val('1')
+                }
+            })
+            // buffer size改变事件
+            $('#buffer_size').change(function () {
+                if($(this).val() <= 100) {
+                    $(this).val('100')
+                }
+            })
+            // width改变事件
+            $('#width').change(function () {
+                if($(this).val() <= 256) {
+                    $(this).val('256')
+                }
+            })
+            // height改变事件
+            $('#height').change(function () {
+                if($(this).val() <= 256) {
+                    $(this).val('256')
+                }
+            })
+        </script>
+
+        <script>
+            function create_train_task() {
+                train_name = $('#train_name').val()
+                input_path = $('#train_img_input_path').val()
+                is_pix = $('#is_pix').attr('checked') == 'checked'
+                pix_img_path = $('#test_img_input_path').val()
+                save_path = $('#save_engine_path').val()
+                tmp_path = $('#save_engine_tmp_path').val()
+                space = $('#save_engine_tmp_space').val()
+                epochs = $('#epochs').val()
+                batch_size = $('#batch_size').val()
+                buffer_size = $('#buffer_size').val()
+                is_clip = $('#clip').attr('checked') == 'checked'
+                width = $('#width').val()
+                height = $('#height').val()
+
+                engine_id = $('#engine-id').val()
+
+                $.ajax({
+                    type: 'get',
+                    url: '/translation/create_train',
+                    data: {
+                        name: train_name,
+                        input_path: input_path,
+                        is_pix: is_pix,
+                        pix_img_path: pix_img_path,
+                        save_path: save_path,
+                        tmp_path: tmp_path,
+                        space: space,
+                        epochs: epochs,
+                        batch_size: batch_size,
+                        buffer_size: buffer_size,
+                        is_clip: is_clip,
+                        width: width,
+                        height: height,
+                        engine_id: engine_id,
+                    },
+                    success: function (res) {
+                        console.log(res)
+                        $('#create-train-modal').modal('toggle')
+                        $('#create-train-btn').addClass('hidden')
+                        $('#train-list-a')[0].click()
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+<div>
+    <div id="header">
+        <div style="padding-top: 180px">
+            <div class="wow fadeInDown clearfix" style="color: #5d5d5d;">
+                <h1 style="margin: 33px 0px">欢迎使用Pix2Pix Z图像翻译系统</h1>
+                <p style="color:#5d5d5d; margin-bottom: 20px">这是一个能够满足你图像翻译需求的系统,你可以自己定义你想要的翻译需求</p>
+                <hr style="background:#5d5d5d;
+                    margin: 0px;
+                    border: 0px;
+                    display: inline-block;
+                    height: 1px;
+                    width: 30px;"/>
+            </div>
+        </div>
+        <div id="shadow"></div>
+    </div>
+    <div style="clear: both"></div>
+    <div class="wow fadeInDown" style="text-align: center">
+        <h2>关于我们</h2>
+        <div style="height: 20px"></div>
+        <div style="padding: 0px 240px">
+            <span style="color: #7c7c7c; line-height: 24px">Pix2Pix Z是一款用来创建和训练图像翻译的系统，该系统内置的AI图像翻译引擎可以帮助使用者完成特定的图像翻译，例如：黑转彩、去雾、超分辨率重建、换脸、风格转换等，一系列由“A类型”图片转变到“B类型”图片的工作都可以使用该系统来进行训练。您只需要提供一个“好”的LAMBDA和训练数据即可完成您想要的需求。我们还提供了对应的“预测接口”，方便开发者在搭建自己的网站时使用自己DIY的翻译引擎对未知的A类型进行预测。在大用户量使用该网站的情况下也许会出现一些优秀的模型，所以我们允许保存和载入模型的操作，这样方便大家通过互联网获取自己需求的模型进行载入，或者是分享自己优秀的模型到互联网中。最后需要说明的是：因为本引擎是基于GAN神经网络完成的，所以它具有GAN本身存在的不稳定性。因此训练出来的模型效果可能不是很理想，您需要修改LAMBDA和训练数据集来尝试得到好模型。</span>
+        </div>
+        <div id="logo" style="margin-top: 35px;margin-bottom: 30px">
+            <a style="font-size: 18px; text-decoration: none">Pix2Pix Z</a>
+        </div>
+        <hr style="background:#9d9d9d;
+                        margin: 0px;
+                        border: 0px;
+                        display: inline-block;
+                        height: 1px;
+                        width: 75%"/>
+    </div>
+    <div style="text-align: center;margin-top: 25px">
+        <div class="wow fadeInDown">
+            <h2>常见问题的解决方案</h2>
+            <div style="margin: 25px 0px">
+                <span style="color: #7c7c7c;">通过简单的分部演示介绍如何使用Pix2Pix Z系统的解决方案</span>
+            </div>
+        </div>
+        <div class="row wow fadeInDown" style="margin: 45px 0px 40px 0px;">
+            <div id="helper-shadow" class="col-sm-offset-1 col-sm-4">
+                <a id="helper" href="/static/translation/using_help.html">
+                    <img style="width: 100%;" src="/static/res/pix2pix_test1.png"/>
+                    <h1>Pix2Pix Z使用教程</h1>
+                </a>
+                <p style="padding-top: 10px; color: #7c7c7c; line-height: 24px">使用Pix2Pix Z系统来DIY您所需要的图像翻译引擎，以及使用系统提供的预测接口</p>
+            </div>
+            <div id="helper-shadow" class="col-sm-offset-2 col-sm-4">
+                <a id="helper" href="/static/translation/model_help.html">
+                    <img style="width: 100%;" src="/static/res/pix2pix_model.png"/>
+                    <h1>Pix2Pix Z系统引擎介绍</h1>
+                </a>
+                <p style="padding-top: 10px; color: #7c7c7c; line-height: 24px">介绍Pix2Pix Z系统内的引擎模型的神经网络结构，以及算法实现</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        wow = new WOW(
+            {
+              animateClass: 'animated',
+              mobile: false,
+              offset: 100
+            }
+        );
+        wow.init();
+    });
+</script>

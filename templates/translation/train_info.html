@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+    <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/translation.css' %}"/>
+        <link rel='stylesheet' type='text/css' href='{% static 'css/bootstrap.min.css'%}'/>
+        <script src='{% static 'js/jquery-3.3.1.min.js'%}'></script>
+        <script src='{% static 'js/bootstrap.min.js'%}'></script>
+        <script src='{% static 'js/echarts.min.js'%}'></script>
+        <script src='{% static 'js/predict.js'%}'></script>
+    </head>
+    <body style="background-color: #eee">
+        <div style="background-color: #ffffff">
+            <div style="padding: 10px 8%; line-height: 40px; font-size: 18px;">
+                <span id="nav-engine-list"><a href="/translation/engine_info?engine_id={{ train.mengine.id }}">{{ train.mengine.name }}</a></span>
+                <span> > </span>
+                <span> {{ train.name }} </span>
+            </div>
+        </div>
+        <div class="train-info">
+            <div style="margin-top: 30px; margin-bottom: 40px">
+                <h1 class="text-center" style="margin-bottom: 30px">{{ train.name }}</h1>
+                <div style="width: 600px; float: left;">
+                    <div id="train-info-table" class="shadow" style="float: left; width: 100%; border: 1px solid #aaa; line-height: 35px; font-size: 18px; padding: 0px">
+                        <div>
+                            <div class="text-center col-sm-6" style="border-top-left-radius: 10px">灰转彩</div>
+                            <div class="text-left col-sm-6" style="border-top-right-radius: 10px">{% if train.is_gtc %}是{% else %}否{% endif %}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">批次大小</div>
+                            <div class="text-left col-sm-6">{{ train.batch_size }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">缓存大小</div>
+                            <div class="text-left col-sm-6">{{ train.buffer_size }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">当前epoch</div>
+                            <div class="text-left col-sm-6">{{ train.cur_epoch }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">epochs</div>
+                            <div class="text-left col-sm-6">{{ train.epochs }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">训练数据路径</div>
+                            <div class="text-left col-sm-6">{{ train.input_path }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">数据是否裁剪</div>
+                            <div class="text-left col-sm-6">{% if train.is_clip %}是{% else %}否{% endif %}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">数据高度</div>
+                            <div class="text-left col-sm-6">{{ train.height }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">数据宽度</div>
+                            <div class="text-left col-sm-6">{{ train.width }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">是否进行像素准确度测试</div>
+                            <div class="text-left col-sm-6">{% if train.is_pix %}是{% else %}否{% endif %}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">像素准确度测试图</div>
+                            <div class="text-left col-sm-6">{{ train.pix_base_path }}\{{ train.pix_img_path }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">临时路径</div>
+                            <div class="text-left col-sm-6">{{ train.tmp_path }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">保存epoch间隔</div>
+                            <div class="text-left col-sm-6">{{ train.space }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">临时epoch值</div>
+                            <div class="text-left col-sm-6">{{ train.tmp_epoch }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6">保存路径</div>
+                            <div class="text-left col-sm-6">{{ train.save_path }}</div>
+                        </div>
+                        <div>
+                            <div class="text-center col-sm-6" style="border-bottom-left-radius: 10px">训练总时间</div>
+                            <div class="text-left col-sm-6" style="border-bottom-right-radius: 10px">{{ train.total_time }}</div>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                    {% if train.is_pix %}
+                        {% if train.is_gtc %}
+                        <div class="shadow" style="margin-top: 50px; margin-bottom: 50px; padding: 10px">
+                            <div style="float: left;" class="text-center">
+                                <div style="width: 276px;line-height: 276px; margin-right: 10px; border: 1px solid #999999; border-radius: 2%">
+                                    <img src="{{ inp }}" style="max-width: 256px; max-height: 256px"/>
+                                </div>
+                                <p style="margin-top: 20px; font-size: 18px; font-weight: bold">Input</p>
+                            </div>
+                            <div style="float: left;" class="text-center">
+                                <div style="width: 276px;line-height: 276px; margin-right: 10px; border: 1px solid #999999; border-radius: 2%">
+                                    <img src="{{ tar }}" style="max-width: 256px; max-height: 256px"/>
+                                </div>
+                                <p style="margin-top: 20px; font-size: 18px; font-weight: bold">Target</p>
+                            </div>
+                            <div style="clear: both"></div>
+                        </div>
+                        {% else %}
+                        <div class="shadow" style="margin-top: 50px; margin-bottom: 50px; padding: 10px">
+                            <div class="text-center">
+                                <div style="width: 552px;line-height: 276px; margin-right: 10px; border: 1px solid #999999; border-radius: 2%">
+                                    <img src="{{ inp }}" style="max-width: 512px; max-height: 256px"/>
+                                </div>
+                                <p style="margin-top: 20px; font-size: 18px; font-weight: bold">Input</p>
+                            </div>
+                            <div class="text-center">
+                                <div style="width: 276px;line-height: 276px; border: 1px solid #999999; border-radius: 2%; display: inline-block">
+                                    <img src="{{ tar }}" style="max-width: 256px; max-height: 256px;"/>
+                                </div>
+                                <p style="margin-top: 20px; font-size: 18px; font-weight: bold">Target</p>
+                            </div>
+                            <div style="clear: both"></div>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                    <script>
+                        function train_info_table_init() {
+                            var rows = $('#train-info-table>div')
+                            var length = rows.length
+                            for(var i=0;i<length;i++) {
+                                if(i%2 == 0) {
+                                    $(rows[i]).children().css('background-color', '#eeeeee80')
+                                }else {
+                                    $(rows[i]).children().css('background-color', '#dddddd80')
+                                }
+                            }
+                        }
+                        train_info_table_init()
+                    </script>
+                </div>
+                <div style="float: left; margin-left: 20px;">
+                    <div class="text-center" style="width: 512px;">
+                        <div class="shadow" id="disc-loss" style="width: 550px; height: 300px; display: inline-block"></div>
+                        <div class="shadow" id="gen-loss" style="width: 550px; height: 300px; display: inline-block"></div>
+                        <div class="shadow" id="pix-acc" style="width: 550px; height: 300px; display: inline-block"></div>
+                        <div class="shadow" id="time" style="width: 550px; height: 300px; display: inline-block"></div>
+                    </div>
+                </div>
+                <script>
+                    var data = {{ datas|safe }}
+                    var disc_loss = echarts.init(document.getElementById('disc-loss'))
+                    disc_loss.setOption(option = {
+                        title: {
+                            text: '鉴别器损失'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        xAxis: {
+                            data: data.epochs
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        toolbox: {
+                            left: 'center',
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        dataZoom: [{
+                            startValue: 0
+                        }, {
+                            type: 'inside'
+                        }],
+                        series: [
+                            {
+                                name: '损失',
+                                type: 'line',
+                                data: data.disc_loss,
+                                smooth: true,
+                            },
+                            {
+                                name: '时间',
+                                type: 'scatter',
+                                data: data.time,
+                                symbolSize: 0, // symbol的大小设置为0
+                                showSymbol: false, // 不显示symbol
+                                lineStyle: {
+                                    width: 0, // 线宽是0
+                                    color: 'rgba(0, 0, 0, 0)' // 线的颜色是透明的
+                                },
+                            },
+                        ]
+                    })
+
+                    var gen_loss = echarts.init(document.getElementById('gen-loss'))
+                    gen_loss.setOption(option = {
+                        title: {
+                            text: '生成器损失'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        xAxis: {
+                            data: data.epochs
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        toolbox: {
+                            left: 'center',
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        dataZoom: [{
+                            startValue: 0
+                        }, {
+                            type: 'inside'
+                        }],
+                        series: [
+                            {
+                                name: '总损失',
+                                type: 'line',
+                                data: data.total_gan_loss,
+                                smooth: true,
+                            },
+                            {
+                                name: 'L1损失',
+                                type: 'line',
+                                data: data.gen_l1_loss,
+                                smooth: true,
+                            },
+                            {
+                                name: 'gen损失',
+                                type: 'line',
+                                data: data.gen_gan_loss,
+                                smooth: true,
+                            },
+                            {
+                                name: '时间',
+                                type: 'scatter',
+                                data: data.time,
+                                symbolSize: 0, // symbol的大小设置为0
+                                showSymbol: false, // 不显示symbol
+                                lineStyle: {
+                                    width: 0, // 线宽是0
+                                    color: 'rgba(0, 0, 0, 0)' // 线的颜色是透明的
+                                },
+                            },
+                        ]
+                    })
+
+                    var pixacc = echarts.init(document.getElementById('pix-acc'))
+                    pixacc.setOption(option = {
+                        title: {
+                            text: '像素准确度'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        xAxis: {
+                            data: data.epochs
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        toolbox: {
+                            left: 'center',
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        dataZoom: [{
+                            startValue: 0
+                        }, {
+                            type: 'inside'
+                        }],
+                        series: [
+                            {
+                                name: '准确度',
+                                type: 'line',
+                                data: data.pixacc.map(function (item) {
+                                    return item*100
+                                }),
+                                smooth: true,
+                            },
+                            {
+                                name: '时间',
+                                type: 'scatter',
+                                data: data.time,
+                                symbolSize: 0, // symbol的大小设置为0
+                                showSymbol: false, // 不显示symbol
+                                lineStyle: {
+                                    width: 0, // 线宽是0
+                                    color: 'rgba(0, 0, 0, 0)' // 线的颜色是透明的
+                                },
+                            },
+                        ]
+                    })
+
+                    var time = echarts.init(document.getElementById('time'))
+                    time.setOption(option = {
+                        title: {
+                            text: '时间花费'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        xAxis: {
+                            data: data.epochs
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            }
+                        },
+                        toolbox: {
+                            left: 'center',
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        dataZoom: [{
+                            startValue: 0
+                        }, {
+                            type: 'inside'
+                        }],
+                        series: [
+                            {
+                                name: '时间',
+                                type: 'line',
+                                data: data.time,
+                                smooth: true,
+                            },
+                        ]
+                    })
+                </script>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    </body>

@@ -9,3 +9,5 @@ pix2pix深度网络模型是基于Tensorflow2.x所搭建，使用Train和Engine�
 ## 使用说明
 1、进入项目根目录，输入python manage.py runserver<br/>
 2、首页拥有使用说明
+## 关于作者
+有意向联系作者邮箱 1055074897@qq.com
